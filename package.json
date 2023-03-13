@@ -1,7 +1,8 @@
 {
-  "name": "root",
+  "name": "vivy-cloud",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.0.1",
+  "author": "haiweilian <haiweilian@foxmail.com>",
   "scripts": {
     "prepare": "husky install",
     "preinstall": "npx only-allow pnpm",
