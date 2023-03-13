@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  vivy-nacos:
+    container_name: vivy-nacos
+    image: nacos/nacos-server:v2.2.0
+    env_file:
+      - ./nacos/conf/nacos.env
+    volumes:
+      - ./nacos/logs/:/home/nacos/logs
+    ports:
+      - '8848:8848'
+      - '9848:9848'
+      - '9555:9555'
+    depends_on:
+      - vivy-mysql
+  vivy-mysql:
+    container_name: vivy-mysql
+    image: mysql
+    env_file:
+      - ./mysql/conf/mysql.env
+    volumes:
+      - ./mysql/logs:/logs
+      - ./mysql/data:/var/lib/mysql
+      - ../sql:/docker-entrypoint-initdb.d
+    ports:
+      - '3306:3306'
+    command:
+      [
+        'mysqld',
+        '--innodb-buffer-pool-size=80M',
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_unicode_ci',
+        '--default-time-zone=+8:00',
+        '--lower-case-table-names=1',
+      ]
+  vivy-redis:
+    container_name: vivy-redis
+    image: redis
+    volumes:
+      - ./redis/data:/data
+      - ./redis/conf/redis.conf:/home/redis/redis.conf
+    ports:
+      - '6379:6379'
+    command: redis-server /home/redis/redis.conf
