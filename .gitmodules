@@ -1,3 +1,9 @@
 [submodule "vivy-react"]
 	path = vivy-react
 	url = https://github.com/bfehub/vivy-react.git
+[submodule "vivy-common"]
+	path = vivy-common
+	url = https://github.com/bfehub/vivy-common.git
+[submodule "vivy-packages"]
+	path = vivy-packages
+	url = https://github.com/bfehub/vivy-packages.git
