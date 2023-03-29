@@ -1,8 +1,10 @@
 {
   "name": "vivy-cloud",
-  "private": true,
   "version": "0.0.1",
+  "private": true,
+  "license": "MIT",
   "author": "haiweilian <haiweilian@foxmail.com>",
+  "homepage": "https://github.com/bfehub/vivy-cloud",
   "scripts": {
     "prepare": "husky install",
     "preinstall": "npx only-allow pnpm",
@@ -17,6 +19,10 @@
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@vivycloud/common-core": "workspace:*",
+    "@vivycloud/common-swagger": "workspace:*",
+    "@vivycloud/config": "workspace:*",
+    "@vivycloud/config-nacos": "workspace:*",
     "lodash": "^4.17.21",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0"
