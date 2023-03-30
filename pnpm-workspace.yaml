@@ -1,6 +1,6 @@
 packages:
   - vivy-auth
   - vivy-gateway
-  - vivy-modules/*
-  - vivy-common/*
-  - vivy-packages/packages/*
+  - vivy-modules/**
+  - vivy-common/**
+  - vivy-packages/**

@@ -19,6 +19,7 @@
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/swagger": "^6.2.1",
     "@vivycloud/common-core": "workspace:*",
     "@vivycloud/common-swagger": "workspace:*",
     "@vivycloud/config": "workspace:*",

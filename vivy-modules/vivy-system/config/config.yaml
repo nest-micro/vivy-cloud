@@ -1,0 +1,4 @@
+# 应用配置
+application:
+  port: 3010
+  name: vivy-system

@@ -5,6 +5,7 @@
 coverage
 
 # Build Generate
+lib
 dist
 
 # Docker
