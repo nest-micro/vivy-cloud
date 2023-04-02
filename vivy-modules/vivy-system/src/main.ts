@@ -2,7 +2,7 @@ import * as path from 'path'
 import { NestFactory } from '@nestjs/core'
 import { ConfigService } from '@vivycloud/config'
 import { SwaggerService } from '@vivycloud/common-swagger'
-import { NestLogger } from '@vivycloud/common-logger'
+import { LoggerModule } from '@vivycloud/common-logger'
 import { AppModule } from './app.module'
 
 async function bootstrap() {
@@ -13,7 +13,7 @@ async function bootstrap() {
   const port = configService.get<number>('application.port')
 
   app.useLogger(
-    NestLogger({
+    LoggerModule.NestLogger({
       appName: name,
       logPath: path.resolve(__dirname, '../logs'),
     })

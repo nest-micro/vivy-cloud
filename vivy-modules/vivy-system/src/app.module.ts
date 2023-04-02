@@ -4,7 +4,7 @@ import { Module } from '@nestjs/common'
 import { IpUtils } from '@vivycloud/common-core'
 import { ConfigModule, ConfigService } from '@vivycloud/config'
 import { NacosConfigModule, NacosNamingModule } from '@vivycloud/config-nacos'
-import { LogInterceptorProvide } from '@vivycloud/common-logger'
+import { LoggerModule } from '@vivycloud/common-logger'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 
@@ -33,8 +33,9 @@ import { AppService } from './app.service'
       },
       inject: [ConfigService],
     }),
+    LoggerModule.forRoot(),
   ],
   controllers: [AppController],
-  providers: [AppService, LogInterceptorProvide],
+  providers: [AppService],
 })
 export class AppModule {}
