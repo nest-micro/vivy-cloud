@@ -1,0 +1,23 @@
+nacos:
+  config:
+    client:
+      serverAddr: 127.0.0.1:8848
+      namespace: 08bf469d-b01d-4409-867c-991660aca7ee
+    configs:
+      dataId: vivy-gen.yaml
+      group: DEFAULT_GROUP
+    sharedConfigs:
+      dataId: vivy-config.yaml
+      group: DEFAULT_GROUP
+  discovery:
+    logger: false
+    client:
+      serverList: 127.0.0.1:8848
+      namespace: 08bf469d-b01d-4409-867c-991660aca7ee
+    instance:
+      # ip: 127.0.0.1
+      port: ${{ application.port }}
+      serviceName: ${{ application.name }}
+      metadata: null
+    subscribes:
+      - serviceName: vivy-system
