@@ -1,47 +1,19 @@
-import * as path from 'path'
-import { Module, ValidationPipe } from '@nestjs/common'
-import { APP_PIPE } from '@nestjs/core'
-
+import { Module } from '@nestjs/common'
 import { CONFIG, CONFIG_NACOS } from '@nest-micro/common'
-import { ConfigModule, Config } from '@nest-micro/config'
-import { ConfigNacosModule } from '@nest-micro/config-nacos'
-import { DiscoveryModule } from '@nest-micro/discovery'
-import { DiscoveryNacosModule } from '@nest-micro/discovery-nacos'
-import { LoadbalanceModule } from '@nest-micro/loadbalance'
-import { BrakesModule } from '@nest-micro/brakes'
-import { HttpModule } from '@nest-micro/http'
+import { Config } from '@nest-micro/config'
 import { ProxyModule } from '@nest-micro/proxy'
-
+import { CoreModule } from '@vivy-cloud/common-core'
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
-import { LoggerModule } from '@vivy-cloud/common-logger'
-import { RemoteApiModule } from '@vivy-cloud/remote-api'
+import { ProxyFilters } from './filters'
 
-import { GatewayModule } from './modules/gateway/gateway.module'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
+import { GatewayModule } from './modules/gateway/gateway.module'
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      dir: path.resolve(__dirname, './config'),
-    }),
-    ConfigNacosModule.forRootAsync({
-      dependencies: [CONFIG],
-    }),
-    DiscoveryModule.forRootAsync({
-      dependencies: [CONFIG, CONFIG_NACOS],
-    }),
-    DiscoveryNacosModule.forRootAsync({
-      dependencies: [CONFIG, CONFIG_NACOS],
-    }),
-    LoadbalanceModule.forRootAsync({
-      dependencies: [CONFIG, CONFIG_NACOS],
-    }),
-    BrakesModule.forRootAsync({
-      dependencies: [CONFIG, CONFIG_NACOS],
-    }),
-    HttpModule.forRootAsync({
-      dependencies: [CONFIG, CONFIG_NACOS],
+    CoreModule.forRoot({
+      dirname: __dirname,
     }),
     ProxyModule.forRootAsync({
       dependencies: [CONFIG, CONFIG_NACOS],
@@ -54,21 +26,9 @@ import { AppService } from './app.service'
       inject: [CONFIG, CONFIG_NACOS],
     }),
 
-    LoggerModule.forRoot(),
-    RemoteApiModule.forRoot(),
-
     GatewayModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: APP_PIPE,
-      useValue: new ValidationPipe({
-        transform: true,
-        whitelist: true,
-      }),
-    },
-  ],
+  providers: [...ProxyFilters, AppService],
 })
 export class AppModule {}
