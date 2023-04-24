@@ -11,10 +11,16 @@ export class OperLogService {
     private operLogRepository: Repository<SysOperLog>
   ) {}
 
+  /**
+   * 添加操作日志
+   */
   async add(operLog: CreateOperLogDto) {
     return await this.operLogRepository.insert(operLog)
   }
 
+  /**
+   * 清空操作日志
+   */
   async clear() {
     return await this.operLogRepository.clear()
   }

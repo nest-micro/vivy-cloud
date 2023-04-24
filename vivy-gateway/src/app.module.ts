@@ -20,7 +20,7 @@ import { GatewayModule } from './modules/gateway/gateway.module'
     }),
     TypeOrmModule.forRootAsync({
       useFactory(config: Config) {
-        const options = config.get<TypeOrmModuleOptions>('mysql.defalut', {})
+        const options = config.get<TypeOrmModuleOptions>('datasource.defalut', {})
         return options
       },
       inject: [CONFIG, CONFIG_NACOS],
