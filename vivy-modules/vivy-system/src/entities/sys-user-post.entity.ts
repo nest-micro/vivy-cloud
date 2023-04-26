@@ -1,15 +1,27 @@
-import { Entity } from 'typeorm'
-import { BaseEntity } from '@vivy-cloud/common-core'
+import { Column, Entity } from 'typeorm'
+import { MappedEntity, BaseTimeEntity } from '@vivy-cloud/common-core'
 
 /**
  * 用户与岗位关联表 用户1-N岗位
  */
 @Entity({ name: 'sys_user_post' })
-export class SysUserPost extends BaseEntity {
-  // create table sys_user_post
-  // (
-  //   user_id   bigint(20) not null comment '用户ID',
-  //   post_id   bigint(20) not null comment '岗位ID',
-  //   primary key (user_id, post_id)
-  // ) engine=innodb comment = '用户与岗位关联表';
+export class SysUserPost extends MappedEntity(BaseTimeEntity) {
+  @Column({
+    name: 'user_id',
+    type: 'bigint',
+    primary: true,
+    comment: '用户ID',
+  })
+  userId: number
+
+  @Column({
+    name: 'post_id',
+    type: 'bigint',
+    primary: true,
+    comment: '岗位ID',
+  })
+  postId: number
+
+  @Column(() => BaseTimeEntity, { prefix: false })
+  private base: BaseTimeEntity
 }

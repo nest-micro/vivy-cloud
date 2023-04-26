@@ -1,18 +1,70 @@
-import { Entity } from 'typeorm'
-import { BaseEntity } from '@vivy-cloud/common-core'
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { MappedEntity, BaseTimeEntity } from '@vivy-cloud/common-core'
 
 /**
  * 登录日志表
  */
 @Entity({ name: 'sys_login_log' })
-export class SysLoginLog extends BaseEntity {
-  // create table sys_logininfor (
-  //   info_id        bigint(20)     not null auto_increment   comment '访问ID',
-  //   user_name      varchar(50)    default ''                comment '用户账号',
-  //   ipaddr         varchar(128)   default ''                comment '登录IP地址',
-  //   status         char(1)        default '0'               comment '登录状态（0成功 1失败）',
-  //   msg            varchar(255)   default ''                comment '提示信息',
-  //   access_time    datetime                                 comment '访问时间',
-  //   primary key (info_id)
-  // ) engine=innodb auto_increment=100 comment = '系统访问记录';
+export class SysLoginLog extends MappedEntity(BaseTimeEntity) {
+  @PrimaryGeneratedColumn({
+    name: 'login_id',
+    type: 'bigint',
+    comment: '登录ID',
+  })
+  loginId: number
+
+  @Column({
+    name: 'login_name',
+    type: 'varchar',
+    length: 50,
+    default: '',
+    comment: '用户账号',
+  })
+  loginName: string
+
+  @Column({
+    name: 'login_status',
+    type: 'tinyint',
+    unsigned: true,
+    default: 0,
+    comment: '登录状态(enum BusinessStatus)',
+  })
+  loginStatus: number
+
+  @Column({
+    name: 'login_ip',
+    type: 'varchar',
+    length: 128,
+    default: '',
+    comment: '主机地址',
+  })
+  loginIp: string
+
+  @Column({
+    name: 'login_location',
+    type: 'varchar',
+    length: 255,
+    default: '',
+    comment: '登录地点',
+  })
+  loginLocation: string
+
+  @Column({
+    name: 'login_message',
+    type: 'varchar',
+    length: 255,
+    default: '',
+    comment: '登录信息',
+  })
+  loginMessage: string
+
+  @Column({
+    name: 'user_agent',
+    type: 'simple-json',
+    comment: '用户代理',
+  })
+  userAgent: object
+
+  @Column(() => BaseTimeEntity, { prefix: false })
+  private base: BaseTimeEntity
 }

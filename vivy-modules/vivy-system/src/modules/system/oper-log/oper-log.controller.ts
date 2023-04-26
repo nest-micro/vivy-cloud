@@ -2,15 +2,17 @@ import { Body, Controller, Post } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { Log, BusinessType } from '@vivy-cloud/common-logger'
 import { OperLogService } from './oper-log.service'
-import { CreateOperLogDto } from './oper-log.dto'
+import { CreateOperLogDto } from './dto/create-oper-log.dto'
 
 @ApiTags('操作日志')
-@Controller('oper-log')
+@Controller('oper/log')
 export class OperLogController {
   constructor(private readonly operLogService: OperLogService) {}
 
   /**
    * 添加操作日志
+   * @author vivy
+   * @date 2023-04-26 17:14:14
    */
   @Log('操作日志', BusinessType.INSERT)
   @Post('add')
@@ -20,6 +22,8 @@ export class OperLogController {
 
   /**
    * 清空操作日志
+   * @author vivy
+   * @date 2023-04-26 17:14:14
    */
   @Log('操作日志', BusinessType.CLEAN)
   @Post('clear')

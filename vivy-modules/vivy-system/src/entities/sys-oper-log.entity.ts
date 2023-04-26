@@ -1,11 +1,18 @@
-import { Entity, Column } from 'typeorm'
-import { BaseEntity } from '@vivy-cloud/common-core'
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+import { MappedEntity, BaseTimeEntity } from '@vivy-cloud/common-core'
 
 /**
  * 操作日志表
  */
 @Entity({ name: 'sys_oper_log' })
-export class SysOperLog extends BaseEntity {
+export class SysOperLog extends MappedEntity(BaseTimeEntity) {
+  @PrimaryGeneratedColumn({
+    name: 'oper_id',
+    type: 'bigint',
+    comment: '操作ID',
+  })
+  operId: number
+
   @Column({
     name: 'title',
     type: 'varchar',
@@ -18,6 +25,7 @@ export class SysOperLog extends BaseEntity {
   @Column({
     name: 'business_type',
     type: 'tinyint',
+    unsigned: true,
     default: 0,
     comment: '业务类型(enum BusinessType)',
   })
@@ -26,6 +34,7 @@ export class SysOperLog extends BaseEntity {
   @Column({
     name: 'oper_type',
     type: 'tinyint',
+    unsigned: true,
     default: 0,
     comment: '操作类别(enum OperatorType)',
   })
@@ -70,6 +79,7 @@ export class SysOperLog extends BaseEntity {
   @Column({
     name: 'oper_status',
     type: 'tinyint',
+    unsigned: true,
     default: 0,
     comment: '操作状态(enum BusinessStatus)',
   })
@@ -107,7 +117,7 @@ export class SysOperLog extends BaseEntity {
     type: 'varchar',
     length: 2000,
     default: '',
-    comment: '请求返回参数',
+    comment: '请求返回结果',
   })
   requestResult: string
 
@@ -119,4 +129,7 @@ export class SysOperLog extends BaseEntity {
     comment: '请求错误消息',
   })
   requestErrmsg: string
+
+  @Column(() => BaseTimeEntity, { prefix: false })
+  private base: BaseTimeEntity
 }
