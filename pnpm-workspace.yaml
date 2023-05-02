@@ -3,4 +3,4 @@ packages:
   - vivy-gateway
   - vivy-modules/**
   - vivy-common/**
-  - nest-micro/**
+  - nest-micro/packages/**

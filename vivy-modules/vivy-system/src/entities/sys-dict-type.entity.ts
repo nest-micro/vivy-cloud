@@ -1,14 +1,14 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
-import { MappedEntity, BaseBusinessEntity } from '@vivy-cloud/common-core'
+import { BaseBusinessEntity } from '@vivy-cloud/common-core'
 
 /**
  * 字典类型表
  */
 @Entity({ name: 'sys_dict_type' })
-export class SysDictType extends MappedEntity(BaseBusinessEntity) {
+export class SysDictType extends BaseBusinessEntity {
   @PrimaryGeneratedColumn({
     name: 'dict_id',
-    type: 'bigint',
+    type: 'int',
     comment: '字典ID',
   })
   dictId: number
@@ -46,7 +46,4 @@ export class SysDictType extends MappedEntity(BaseBusinessEntity) {
     comment: '字典状态（0正常 1停用）',
   })
   status: string
-
-  @Column(() => BaseBusinessEntity, { prefix: false })
-  private base: BaseBusinessEntity
 }

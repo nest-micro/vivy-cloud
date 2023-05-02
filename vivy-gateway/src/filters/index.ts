@@ -1,3 +1,3 @@
-import { ErrorFilter } from './error.filter'
+import { ProxyErrorFilter } from './error.filter'
 
-export const ProxyFilters = [ErrorFilter]
+export const ProxyFilters = [ProxyErrorFilter]

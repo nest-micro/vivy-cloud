@@ -1,21 +1,21 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
-import { MappedEntity, BaseBusinessEntity } from '@vivy-cloud/common-core'
+import { BaseBusinessEntity } from '@vivy-cloud/common-core'
 
 /**
  * 用户信息表
  */
 @Entity({ name: 'sys_user' })
-export class SysUser extends MappedEntity(BaseBusinessEntity) {
+export class SysUser extends BaseBusinessEntity {
   @PrimaryGeneratedColumn({
     name: 'user_id',
-    type: 'bigint',
+    type: 'int',
     comment: '用户ID',
   })
   userId: number
 
   @Column({
     name: 'dept_id',
-    type: 'bigint',
+    type: 'int',
     nullable: true,
     comment: '部门ID',
   })
@@ -100,7 +100,4 @@ export class SysUser extends MappedEntity(BaseBusinessEntity) {
     comment: '用户状态（0正常 1停用）',
   })
   status: string
-
-  @Column(() => BaseBusinessEntity, { prefix: false })
-  private base: BaseBusinessEntity
 }

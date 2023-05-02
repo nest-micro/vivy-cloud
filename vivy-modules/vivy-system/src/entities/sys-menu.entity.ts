@@ -1,21 +1,21 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
-import { MappedEntity, BaseBusinessEntity } from '@vivy-cloud/common-core'
+import { BaseBusinessEntity } from '@vivy-cloud/common-core'
 
 /**
  * 菜单权限表
  */
 @Entity({ name: 'sys_menu' })
-export class SysMenu extends MappedEntity(BaseBusinessEntity) {
+export class SysMenu extends BaseBusinessEntity {
   @PrimaryGeneratedColumn({
     name: 'menu_id',
-    type: 'bigint',
+    type: 'int',
     comment: '菜单ID',
   })
   menuId: number
 
   @Column({
     name: 'parent_id',
-    type: 'bigint',
+    type: 'int',
     comment: '父菜单ID',
   })
   parentId: number
@@ -133,7 +133,4 @@ export class SysMenu extends MappedEntity(BaseBusinessEntity) {
     comment: '是否缓存（0否 1是）',
   })
   isCache: number
-
-  @Column(() => BaseBusinessEntity, { prefix: false })
-  private base: BaseBusinessEntity
 }

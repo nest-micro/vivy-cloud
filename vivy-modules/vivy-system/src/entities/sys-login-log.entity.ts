@@ -1,14 +1,14 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
-import { MappedEntity, BaseTimeEntity } from '@vivy-cloud/common-core'
+import { BaseTimeEntity } from '@vivy-cloud/common-core'
 
 /**
  * 登录日志表
  */
 @Entity({ name: 'sys_login_log' })
-export class SysLoginLog extends MappedEntity(BaseTimeEntity) {
+export class SysLoginLog extends BaseTimeEntity {
   @PrimaryGeneratedColumn({
     name: 'login_id',
-    type: 'bigint',
+    type: 'int',
     comment: '登录ID',
   })
   loginId: number
@@ -64,7 +64,4 @@ export class SysLoginLog extends MappedEntity(BaseTimeEntity) {
     comment: '用户代理',
   })
   userAgent: object
-
-  @Column(() => BaseTimeEntity, { prefix: false })
-  private base: BaseTimeEntity
 }

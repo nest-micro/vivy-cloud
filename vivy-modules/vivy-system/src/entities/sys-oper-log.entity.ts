@@ -1,14 +1,14 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
-import { MappedEntity, BaseTimeEntity } from '@vivy-cloud/common-core'
+import { BaseTimeEntity } from '@vivy-cloud/common-core'
 
 /**
  * 操作日志表
  */
 @Entity({ name: 'sys_oper_log' })
-export class SysOperLog extends MappedEntity(BaseTimeEntity) {
+export class SysOperLog extends BaseTimeEntity {
   @PrimaryGeneratedColumn({
     name: 'oper_id',
-    type: 'bigint',
+    type: 'int',
     comment: '操作ID',
   })
   operId: number
@@ -129,7 +129,4 @@ export class SysOperLog extends MappedEntity(BaseTimeEntity) {
     comment: '请求错误消息',
   })
   requestErrmsg: string
-
-  @Column(() => BaseTimeEntity, { prefix: false })
-  private base: BaseTimeEntity
 }

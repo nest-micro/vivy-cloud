@@ -1,14 +1,14 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
-import { MappedEntity, BaseBusinessEntity } from '@vivy-cloud/common-core'
+import { BaseBusinessEntity } from '@vivy-cloud/common-core'
 
 /**
  * 字典数据表
  */
 @Entity({ name: 'sys_dict_data' })
-export class SysDictData extends MappedEntity(BaseBusinessEntity) {
+export class SysDictData extends BaseBusinessEntity {
   @PrimaryGeneratedColumn({
     name: 'dict_code',
-    type: 'bigint',
+    type: 'int',
     comment: '字典编码',
   })
   dictCode: number
@@ -64,7 +64,4 @@ export class SysDictData extends MappedEntity(BaseBusinessEntity) {
     comment: '表格回显样式',
   })
   listClass: string
-
-  @Column(() => BaseBusinessEntity, { prefix: false })
-  private base: BaseBusinessEntity
 }

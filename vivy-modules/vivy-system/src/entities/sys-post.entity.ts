@@ -1,14 +1,14 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
-import { MappedEntity, BaseBusinessEntity } from '@vivy-cloud/common-core'
+import { BaseBusinessEntity } from '@vivy-cloud/common-core'
 
 /**
  * 岗位信息表
  */
 @Entity({ name: 'sys_post' })
-export class SysPost extends MappedEntity(BaseBusinessEntity) {
+export class SysPost extends BaseBusinessEntity {
   @PrimaryGeneratedColumn({
     name: 'post_id',
-    type: 'bigint',
+    type: 'int',
     comment: '岗位ID',
   })
   postId: number
@@ -45,7 +45,4 @@ export class SysPost extends MappedEntity(BaseBusinessEntity) {
     comment: '部门状态（0正常 1停用）',
   })
   status: string
-
-  @Column(() => BaseBusinessEntity, { prefix: false })
-  private base: BaseBusinessEntity
 }

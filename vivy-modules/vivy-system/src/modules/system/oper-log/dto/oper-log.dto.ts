@@ -1,6 +1,11 @@
 import { Allow } from 'class-validator'
 import { BusinessType, BusinessStatus, OperatorType } from '@vivy-cloud/common-logger'
+import { PartialType } from '@nestjs/mapped-types'
+import { PaginateDto } from '@vivy-cloud/common-core'
 
+/**
+ * 新增
+ */
 export class CreateOperLogDto {
   // @Column({
   //   name: 'title',
@@ -129,3 +134,21 @@ export class CreateOperLogDto {
   @Allow()
   requestErrmsg: string
 }
+
+/**
+ * 更新
+ */
+export class UpdateOperLogDto extends PartialType(CreateOperLogDto) {
+  // @PrimaryGeneratedColumn({
+  //   name: 'oper_id',
+  //   type: 'bigint',
+  //   comment: '操作ID',
+  // })
+  @Allow()
+  operId: number
+}
+
+/**
+ * 查询搜索
+ */
+export class SearchOperLogDto extends PaginateDto {}

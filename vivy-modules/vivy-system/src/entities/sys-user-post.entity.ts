@@ -1,14 +1,14 @@
 import { Column, Entity } from 'typeorm'
-import { MappedEntity, BaseTimeEntity } from '@vivy-cloud/common-core'
+import { BaseTimeEntity } from '@vivy-cloud/common-core'
 
 /**
  * 用户与岗位关联表 用户1-N岗位
  */
 @Entity({ name: 'sys_user_post' })
-export class SysUserPost extends MappedEntity(BaseTimeEntity) {
+export class SysUserPost extends BaseTimeEntity {
   @Column({
     name: 'user_id',
-    type: 'bigint',
+    type: 'int',
     primary: true,
     comment: '用户ID',
   })
@@ -16,12 +16,9 @@ export class SysUserPost extends MappedEntity(BaseTimeEntity) {
 
   @Column({
     name: 'post_id',
-    type: 'bigint',
+    type: 'int',
     primary: true,
     comment: '岗位ID',
   })
   postId: number
-
-  @Column(() => BaseTimeEntity, { prefix: false })
-  private base: BaseTimeEntity
 }
