@@ -5,6 +5,7 @@ import { Injectable } from '@nestjs/common'
 import { Get, Query, ResponseBody } from '@nest-micro/http'
 import { Loadbalanced } from '@nest-micro/loadbalance'
 import { ServiceNameEnums, ISysLoginUser, AjaxResult } from '@vivy-cloud/common-core'
+import { SecurityConstants } from '@vivy-cloud/common-core/lib/constants'
 
 /**
  * 远程用户服务
@@ -19,5 +20,6 @@ export class RemoteUserService {
    */
   @Get('remote/user/getUserInfo')
   @ResponseBody()
+  @SetHeader(SecurityConstants.FROM_SOURCE, SecurityConstants.SOURCE_INNER)
   async getUserInfo(@Query('username') username: string): Promise<AjaxResult<ISysLoginUser>> {}
 }

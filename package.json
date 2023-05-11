@@ -6,7 +6,7 @@
   "author": "haiweilian <haiweilian@foxmail.com>",
   "homepage": "https://github.com/nest-micro/vivy-cloud",
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "husky install && pnpm build:micro && pnpm build:common",
     "preinstall": "npx only-allow pnpm",
     "commit": "npx git-cz",
     "lint:lint-staged": "lint-staged",

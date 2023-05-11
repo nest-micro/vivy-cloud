@@ -1,6 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { AjaxResult, ISysLoginUser } from '@vivy-cloud/common-core'
+import { InnerAuth } from '@vivy-cloud/common-security'
 import { isNull } from 'lodash'
 import { UserService } from '../system/user/user.service'
 
@@ -14,6 +15,7 @@ export class RemoteUserController {
    * @author vivy
    * @date 2023-05-07 19:11:06
    */
+  @InnerAuth()
   @Get('getUserInfo')
   async getUserInfo(@Query('username') username: string): Promise<AjaxResult> {
     const sysUser = await this.userService.selectUserByUserName(username)

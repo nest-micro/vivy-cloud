@@ -41,9 +41,11 @@ export class ProxyAuthFilter implements ProxyFilter {
       throw new NotLoginException('登录状态已过期')
     }
 
-    // 设置用户信息到请求中
+    // 设置用户信息到请求头
     request.headers[SecurityConstants.USER_KEY] = this.tokenService.getUserKey(claims)
     request.headers[SecurityConstants.USER_ID] = this.tokenService.getUserId(claims) as unknown as string
     request.headers[SecurityConstants.USER_NAME] = this.tokenService.getUserName(claims)
+    // 内部请求来源参数清除
+    request.headers[SecurityConstants.FROM_SOURCE] = undefined
   }
 }
