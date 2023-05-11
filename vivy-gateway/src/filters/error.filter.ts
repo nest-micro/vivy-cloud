@@ -4,9 +4,13 @@ import { AjaxResult } from '@vivy-cloud/common-core'
 import { LoggerService } from '@vivy-cloud/common-logger'
 import { Request, Response } from 'express'
 
+/**
+ * 网关错误
+ */
 @Injectable()
 @RegisterFilter()
 export class ProxyErrorFilter implements ProxyFilter {
+  public order = -100
   public global = true
 
   constructor(private logger: LoggerService) {}

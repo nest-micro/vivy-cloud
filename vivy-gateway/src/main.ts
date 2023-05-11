@@ -5,7 +5,9 @@ import { SwaggerService } from '@vivy-cloud/common-swagger'
 import { AppModule } from './app.module'
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule)
+  const app = await NestFactory.create(AppModule, {
+    bodyParser: false,
+  })
 
   const config = app.get(Config)
   const name = config.get<string>('application.name')
@@ -13,7 +15,7 @@ async function bootstrap() {
 
   app.useLogger(app.get(LoggerService))
 
-  const swagger = new SwaggerService(app, {})
+  const swagger = new SwaggerService(app, config.get('swagger'))
   swagger.setup()
 
   await app.listen(port, () => {

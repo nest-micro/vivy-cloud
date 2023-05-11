@@ -13,7 +13,7 @@ async function bootstrap() {
 
   app.useLogger(app.get(LoggerService))
 
-  const swagger = new SwaggerService(app, {})
+  const swagger = new SwaggerService(app, config.get('swagger'))
   swagger.setup()
 
   await app.listen(port, () => {

@@ -8,7 +8,7 @@ import { SearchOperLogDto, CreateOperLogDto } from './dto/oper-log.dto'
 @ApiTags('操作日志')
 @Controller('oper/log')
 export class OperLogController {
-  constructor(private readonly operLogService: OperLogService) {}
+  constructor(private operLogService: OperLogService) {}
 
   /**
    * 查询操作日志列表

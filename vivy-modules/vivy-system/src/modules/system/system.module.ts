@@ -43,13 +43,13 @@ import { DictTypeController } from './dict-type/dict-type.controller'
 import { DictDataService } from './dict-data/dict-data.service'
 import { DictDataController } from './dict-data/dict-data.controller'
 
-// login-log
-import { LoginLogService } from './login-log/login-log.service'
-import { LoginLogController } from './login-log/login-log.controller'
-
 // oper-log
 import { OperLogService } from './oper-log/oper-log.service'
 import { OperLogController } from './oper-log/oper-log.controller'
+
+// login-log
+import { LoginLogService } from './login-log/login-log.service'
+import { LoginLogController } from './login-log/login-log.controller'
 
 @Module({
   imports: [
@@ -65,8 +65,8 @@ import { OperLogController } from './oper-log/oper-log.controller'
       SysMenu,
       SysDictType,
       SysDictData,
-      SysLoginLog,
       SysOperLog,
+      SysLoginLog,
     ]),
   ],
   controllers: [
@@ -77,8 +77,8 @@ import { OperLogController } from './oper-log/oper-log.controller'
     MenuController,
     DictTypeController,
     DictDataController,
-    LoginLogController,
     OperLogController,
+    LoginLogController,
   ],
   providers: [
     UserService,
@@ -88,9 +88,9 @@ import { OperLogController } from './oper-log/oper-log.controller'
     MenuService,
     DictTypeService,
     DictDataService,
-    LoginLogService,
     OperLogService,
+    LoginLogService,
   ],
-  exports: [LoginLogService, OperLogService],
+  exports: [UserService, OperLogService, LoginLogService],
 })
 export class SystemModule {}

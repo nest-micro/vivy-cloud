@@ -23,6 +23,15 @@ export class SysLoginLog extends BaseTimeEntity {
   loginName: string
 
   @Column({
+    name: 'login_type',
+    type: 'tinyint',
+    unsigned: true,
+    default: 0,
+    comment: '登录类型(enum LoginType)',
+  })
+  loginType: number
+
+  @Column({
     name: 'login_status',
     type: 'tinyint',
     unsigned: true,
@@ -60,8 +69,10 @@ export class SysLoginLog extends BaseTimeEntity {
 
   @Column({
     name: 'user_agent',
-    type: 'simple-json',
+    type: 'varchar',
+    length: 500,
+    default: '',
     comment: '用户代理',
   })
-  userAgent: object
+  userAgent: string
 }

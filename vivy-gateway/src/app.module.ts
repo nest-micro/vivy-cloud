@@ -4,8 +4,10 @@ import { CONFIG, CONFIG_NACOS } from '@nest-micro/common'
 import { Config } from '@nest-micro/config'
 import { ProxyModule } from '@nest-micro/proxy'
 import { CoreModule } from '@vivy-cloud/common-core'
+import { SecurityTokenModule } from '@vivy-cloud/common-security'
 import { TypeORMLogger } from '@vivy-cloud/common-logger'
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm'
+import { RedisModule, RedisModuleOptions } from '@nestjs-modules/ioredis'
 import { ProxyFilters } from './filters'
 
 import { AppController } from './app.controller'
@@ -17,8 +19,19 @@ import { GatewayModule } from './modules/gateway/gateway.module'
     CoreModule.forRoot({
       dirname: __dirname,
     }),
+    SecurityTokenModule.forRoot({
+      dirname: __dirname,
+    }),
     ProxyModule.forRootAsync({
       dependencies: [CONFIG, CONFIG_NACOS],
+    }),
+    RedisModule.forRootAsync({
+      useFactory(config: Config) {
+        return {
+          config: config.get<RedisModuleOptions['config']>('redis.defalut'),
+        }
+      },
+      inject: [CONFIG, CONFIG_NACOS],
     }),
     TypeOrmModule.forRootAsync({
       useFactory(config: Config) {
@@ -36,6 +49,6 @@ import { GatewayModule } from './modules/gateway/gateway.module'
     GatewayModule,
   ],
   controllers: [AppController],
-  providers: [...ProxyFilters, AppService],
+  providers: [AppService, ...ProxyFilters],
 })
 export class AppModule {}

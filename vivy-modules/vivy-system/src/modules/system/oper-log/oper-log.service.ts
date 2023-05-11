@@ -14,6 +14,8 @@ export class OperLogService {
 
   /**
    * 查询操作日志列表
+   * @author vivy
+   * @date 2023-04-27 20:33:05
    */
   async list(operLog: SearchOperLogDto): Promise<Pagination<SysOperLog>> {
     return paginate<SysOperLog>(this.operLogRepository, {
@@ -24,6 +26,8 @@ export class OperLogService {
 
   /**
    * 添加操作日志
+   * @author vivy
+   * @date 2023-04-26 17:14:14
    */
   async add(operLog: CreateOperLogDto): Promise<void> {
     await this.operLogRepository.insert(operLog)
@@ -31,6 +35,8 @@ export class OperLogService {
 
   /**
    * 清空操作日志
+   * @author vivy
+   * @date 2023-04-26 17:14:14
    */
   async clear(): Promise<void> {
     await this.operLogRepository.clear()

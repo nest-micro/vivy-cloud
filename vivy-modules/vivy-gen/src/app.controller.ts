@@ -5,7 +5,7 @@ import { AppService } from './app.service'
 @ApiTags('首页')
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private appService: AppService) {}
 
   @Get()
   getHello(): string {
