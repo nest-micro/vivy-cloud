@@ -1,13 +1,19 @@
 import { Body, Controller, Post, Req } from '@nestjs/common'
 import { AjaxResult } from '@vivy-cloud/common-core'
 import { TokenService } from '@vivy-cloud/common-security'
+import { LoginType } from '@vivy-cloud/common-logger'
 import { Request } from 'express'
 import { AuthService } from './auth.service'
 import { LoginInfoDto } from './dto/login.dto'
+import { LoginLogService } from '../services/login-log.service'
 
 @Controller()
 export class AuthController {
-  constructor(private authService: AuthService, private tokenService: TokenService) {}
+  constructor(
+    private authService: AuthService,
+    private tokenService: TokenService,
+    private loginLogService: LoginLogService
+  ) {}
 
   /**
    * 用户登录
@@ -16,9 +22,15 @@ export class AuthController {
    */
   @Post('login')
   async login(@Body() form: LoginInfoDto): Promise<AjaxResult> {
-    const user = await this.authService.login(form.username, form.password)
-    const token = await this.tokenService.createToken(user)
-    return AjaxResult.success(token)
+    try {
+      const user = await this.authService.login(form.username, form.password)
+      const token = await this.tokenService.createToken(user)
+      this.loginLogService.success(LoginType.ACCOUNT_PASSWORD, form.username, '登录成功')
+      return AjaxResult.success(token, '登录成功')
+    } catch (error) {
+      this.loginLogService.error(LoginType.ACCOUNT_PASSWORD, form.username, error?.message)
+      throw error
+    }
   }
 
   /**
@@ -32,7 +44,7 @@ export class AuthController {
     if (token) {
       await this.tokenService.delLoginUser(token)
     }
-    return AjaxResult.success()
+    return AjaxResult.success(null, '退出成功')
   }
 
   /**
@@ -49,6 +61,6 @@ export class AuthController {
         await this.tokenService.refreshToken(loginUser)
       }
     }
-    return AjaxResult.success()
+    return AjaxResult.success(null, '刷新成功')
   }
 }

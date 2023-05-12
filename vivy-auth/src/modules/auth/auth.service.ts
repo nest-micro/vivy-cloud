@@ -19,21 +19,22 @@ export class AuthService {
 
     const userResult = await this.remoteUserService.getUserInfo(username)
     if (isEmpty(userResult) || isEmpty(userResult.data)) {
-      throw new ServiceException('登录用户：' + username + ' 不存在')
+      throw new ServiceException('登录用户不存在')
     }
 
     const data = userResult.data
     const user = userResult.data.sysUser
 
     if (UserStatusEnums.DELETED === user.delFlag) {
-      throw new ServiceException('您的账号：' + username + ' 已删除')
+      throw new ServiceException('您的账号已删除')
     }
 
     if (UserStatusEnums.DISABLE === user.status) {
-      throw new ServiceException('您的账号：' + username + ' 已停用')
+      throw new ServiceException('您的账号已停用')
     }
 
-    if (!PasswordUtils.compare(password, user.password)) {
+    const isMatch = await PasswordUtils.compare(password, user.password)
+    if (!isMatch) {
       throw new ServiceException('密码输入错误')
     }
 
