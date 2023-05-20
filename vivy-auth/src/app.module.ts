@@ -1,6 +1,6 @@
 import * as path from 'path'
 import { Module } from '@nestjs/common'
-import { CONFIG, CONFIG_NACOS } from '@nest-micro/common'
+import { CONFIG, NACOS_CONFIG } from '@nest-micro/common'
 import { Config } from '@nest-micro/config'
 import { CoreModule } from '@vivy-cloud/common-core'
 import { SecurityModule } from '@vivy-cloud/common-security'
@@ -26,7 +26,7 @@ import { AuthModule } from './modules/auth/auth.module'
           config: config.get<RedisModuleOptions['config']>('redis.defalut'),
         }
       },
-      inject: [CONFIG, CONFIG_NACOS],
+      inject: [CONFIG, NACOS_CONFIG],
     }),
     TypeOrmModule.forRootAsync({
       useFactory(config: Config) {
@@ -38,7 +38,7 @@ import { AuthModule } from './modules/auth/auth.module'
           }),
         }
       },
-      inject: [CONFIG, CONFIG_NACOS],
+      inject: [CONFIG, NACOS_CONFIG],
     }),
 
     AuthModule,

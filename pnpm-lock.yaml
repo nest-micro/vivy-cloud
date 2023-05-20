@@ -11,11 +11,11 @@ importers:
       '@nest-micro/brakes': workspace:*
       '@nest-micro/common': workspace:*
       '@nest-micro/config': workspace:*
-      '@nest-micro/config-nacos': workspace:*
       '@nest-micro/discovery': workspace:*
-      '@nest-micro/discovery-nacos': workspace:*
       '@nest-micro/http': workspace:*
       '@nest-micro/loadbalance': workspace:*
+      '@nest-micro/nacos-config': workspace:*
+      '@nest-micro/nacos-discovery': workspace:*
       '@nest-micro/proxy': workspace:*
       '@nestjs-modules/ioredis': ^1.0.1
       '@nestjs/cli': ^9.0.0
@@ -55,11 +55,11 @@ importers:
       '@nest-micro/brakes': link:nest-micro/packages/brakes
       '@nest-micro/common': link:nest-micro/packages/common
       '@nest-micro/config': link:nest-micro/packages/config
-      '@nest-micro/config-nacos': link:nest-micro/packages/config-nacos
       '@nest-micro/discovery': link:nest-micro/packages/discovery
-      '@nest-micro/discovery-nacos': link:nest-micro/packages/discovery-nacos
       '@nest-micro/http': link:nest-micro/packages/http
       '@nest-micro/loadbalance': link:nest-micro/packages/loadbalance
+      '@nest-micro/nacos-config': link:nest-micro/packages/nacos/nacos-config
+      '@nest-micro/nacos-discovery': link:nest-micro/packages/nacos/nacos-discovery
       '@nest-micro/proxy': link:nest-micro/packages/proxy
       '@nestjs-modules/ioredis': 1.0.1_lqzeeazzx4qogijrmxmrsuskky
       '@nestjs/common': 9.4.0_j3td4gnlgk75ora6o6suo62byy
@@ -108,10 +108,7 @@ importers:
       brakes: 3.1.0
 
   nest-micro/packages/common:
-    specifiers:
-      '@golevelup/nestjs-discovery': ^3.0.0
-    dependencies:
-      '@golevelup/nestjs-discovery': 3.0.0
+    specifiers: {}
 
   nest-micro/packages/config:
     specifiers:
@@ -121,24 +118,8 @@ importers:
       handlebars: 4.7.7
       yaml: 2.2.2
 
-  nest-micro/packages/config-nacos:
-    specifiers:
-      nacos: ^2.5.1
-      yaml: ^2.2.1
-    dependencies:
-      nacos: 2.5.1
-      yaml: 2.2.2
-
   nest-micro/packages/discovery:
     specifiers: {}
-
-  nest-micro/packages/discovery-nacos:
-    specifiers:
-      address: ^1.2.2
-      nacos: ^2.5.1
-    dependencies:
-      address: 1.2.2
-      nacos: 2.5.1
 
   nest-micro/packages/http:
     specifiers:
@@ -150,6 +131,22 @@ importers:
 
   nest-micro/packages/loadbalance:
     specifiers: {}
+
+  nest-micro/packages/nacos/nacos-config:
+    specifiers:
+      nacos: ^2.5.1
+      yaml: ^2.2.1
+    dependencies:
+      nacos: 2.5.1
+      yaml: 2.2.2
+
+  nest-micro/packages/nacos/nacos-discovery:
+    specifiers:
+      address: ^1.2.2
+      nacos: ^2.5.1
+    dependencies:
+      address: 1.2.2
+      nacos: 2.5.1
 
   nest-micro/packages/proxy:
     specifiers:
@@ -868,12 +865,6 @@ packages:
     resolution: {integrity: sha512-kf9RB0Fg7NZfap83B3QOqOGg9QmD9yBudqQXzzOtn3i4y7ZUXe5ONeW34Gwi+TxhH4mvj72R1Zc300KUMa9Bng==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
-
-  /@golevelup/nestjs-discovery/3.0.0:
-    resolution: {integrity: sha512-ZvkXtobTKxXB1LJanP/l6Z/Fing88IMBr3uabQpU2IWjfsstjh02qYDSU2cfD6CSmNldX5ewW5Pd+SdK2lU8Sw==}
-    dependencies:
-      lodash: 4.17.21
-    dev: false
 
   /@humanwhocodes/config-array/0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}

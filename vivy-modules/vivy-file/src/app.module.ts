@@ -1,6 +1,6 @@
 import * as path from 'path'
 import { Module } from '@nestjs/common'
-import { CONFIG, CONFIG_NACOS } from '@nest-micro/common'
+import { CONFIG, NACOS_CONFIG } from '@nest-micro/common'
 import { Config } from '@nest-micro/config'
 import { CoreModule } from '@vivy-cloud/common-core'
 import { TypeORMLogger } from '@vivy-cloud/common-logger'
@@ -24,7 +24,7 @@ import { AppService } from './app.service'
           }),
         }
       },
-      inject: [CONFIG, CONFIG_NACOS],
+      inject: [CONFIG, NACOS_CONFIG],
     }),
   ],
   controllers: [AppController],

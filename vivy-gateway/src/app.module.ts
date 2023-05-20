@@ -1,6 +1,6 @@
 import * as path from 'path'
 import { Module } from '@nestjs/common'
-import { CONFIG, CONFIG_NACOS } from '@nest-micro/common'
+import { CONFIG, NACOS_CONFIG } from '@nest-micro/common'
 import { Config } from '@nest-micro/config'
 import { ProxyModule } from '@nest-micro/proxy'
 import { CoreModule } from '@vivy-cloud/common-core'
@@ -23,7 +23,7 @@ import { GatewayModule } from './modules/gateway/gateway.module'
       dirname: __dirname,
     }),
     ProxyModule.forRootAsync({
-      dependencies: [CONFIG, CONFIG_NACOS],
+      dependencies: [CONFIG, NACOS_CONFIG],
     }),
     RedisModule.forRootAsync({
       useFactory(config: Config) {
@@ -31,7 +31,7 @@ import { GatewayModule } from './modules/gateway/gateway.module'
           config: config.get<RedisModuleOptions['config']>('redis.defalut'),
         }
       },
-      inject: [CONFIG, CONFIG_NACOS],
+      inject: [CONFIG, NACOS_CONFIG],
     }),
     TypeOrmModule.forRootAsync({
       useFactory(config: Config) {
@@ -43,7 +43,7 @@ import { GatewayModule } from './modules/gateway/gateway.module'
           }),
         }
       },
-      inject: [CONFIG, CONFIG_NACOS],
+      inject: [CONFIG, NACOS_CONFIG],
     }),
 
     GatewayModule,
