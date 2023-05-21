@@ -2,7 +2,7 @@ import { Controller, Get, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { AjaxResult, ISysLoginUser } from '@vivy-cloud/common-core'
 import { InnerAuth } from '@vivy-cloud/common-security'
-import { isNull } from 'lodash'
+import { isEmpty } from 'lodash'
 import { UserService } from '../system/user/user.service'
 
 @ApiTags('远程服务-用户信息')
@@ -19,7 +19,7 @@ export class RemoteUserController {
   @Get('getUserInfo')
   async getUserInfo(@Query('username') username: string): Promise<AjaxResult> {
     const sysUser = await this.userService.selectUserByUserName(username)
-    if (isNull(sysUser)) {
+    if (isEmpty(sysUser)) {
       return AjaxResult.error('用户名错误')
     }
 
