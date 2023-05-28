@@ -46,6 +46,6 @@ export class ProxyAuthFilter implements ProxyFilter {
     request.headers[SecurityConstants.USER_ID] = this.tokenService.getUserId(claims) as unknown as string
     request.headers[SecurityConstants.USER_NAME] = this.tokenService.getUserName(claims)
     // 内部请求来源参数清除
-    request.headers[SecurityConstants.FROM_SOURCE] = undefined
+    delete request.headers[SecurityConstants.FROM_SOURCE]
   }
 }

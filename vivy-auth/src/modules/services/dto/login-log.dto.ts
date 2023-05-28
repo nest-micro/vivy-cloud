@@ -1,4 +1,4 @@
-import { LoginType, BusinessStatus } from '@vivy-cloud/common-logger'
+import { LoginType, OperStatus } from '@vivy-cloud/common-logger'
 
 export class LoginLogDto {
   /**
@@ -12,9 +12,9 @@ export class LoginLogDto {
   loginType: LoginType
 
   /**
-   * 登录状态(enum BusinessStatus)
+   * 登录状态(enum OperStatus)
    */
-  loginStatus: BusinessStatus
+  loginStatus: OperStatus
 
   /**
    * 主机地址

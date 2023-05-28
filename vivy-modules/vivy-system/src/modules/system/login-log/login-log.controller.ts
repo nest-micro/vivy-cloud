@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { AjaxResult } from '@vivy-cloud/common-core'
-import { Log, BusinessType } from '@vivy-cloud/common-logger'
+import { Log, OperType } from '@vivy-cloud/common-logger'
 import { LoginLogService } from './login-log.service'
 import { SearchLoginLogDto, CreateLoginLogDto } from './dto/login-log.dto'
 
@@ -25,7 +25,7 @@ export class LoginLogController {
    * @author vivy
    * @date 2023-04-26 17:14:14
    */
-  @Log('登录日志', BusinessType.INSERT)
+  @Log('登录日志', OperType.INSERT)
   @Post('add')
   async add(@Body() loginLog: CreateLoginLogDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.loginLogService.add(loginLog))
@@ -36,7 +36,7 @@ export class LoginLogController {
    * @author vivy
    * @date 2023-04-26 17:14:14
    */
-  @Log('登录日志', BusinessType.CLEAN)
+  @Log('登录日志', OperType.CLEAN)
   @Post('clear')
   async clear(): Promise<AjaxResult> {
     return AjaxResult.success(await this.loginLogService.clear())

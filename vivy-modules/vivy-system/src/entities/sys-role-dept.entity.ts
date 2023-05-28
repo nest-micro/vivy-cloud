@@ -18,7 +18,7 @@ export class SysRoleDept extends BaseTimeEntity {
     name: 'dept_id',
     type: 'int',
     primary: true,
-    comment: '用户ID',
+    comment: '部门ID',
   })
   deptId: number
 }

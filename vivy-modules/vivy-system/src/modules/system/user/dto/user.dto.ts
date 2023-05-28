@@ -48,7 +48,7 @@ export class CreateUserDto {
   //   name: 'email',
   //   type: 'varchar',
   //   length: 50,
-  //   default: '',
+  //   nullable: true,
   //   comment: '用户邮箱',
   // })
   @Allow()
@@ -58,7 +58,7 @@ export class CreateUserDto {
   //   name: 'phonenumber',
   //   type: 'varchar',
   //   length: 11,
-  //   default: '',
+  //   nullable: true,
   //   comment: '手机号码',
   // })
   @Allow()
@@ -78,7 +78,7 @@ export class CreateUserDto {
   //   name: 'avatar',
   //   type: 'varchar',
   //   length: 255,
-  //   default: '',
+  //   nullable: true,
   //   comment: '头像地址',
   // })
   @Allow()
@@ -108,7 +108,7 @@ export class CreateUserDto {
   //   name: 'remark',
   //   type: 'varchar',
   //   length: 500,
-  //   default: '',
+  //   nullable: true,
   //   comment: '备注',
   // })
   @Allow()
@@ -124,6 +124,7 @@ export class UpdateUserDto extends PartialType(CreateUserDto) {
   //   type: 'int',
   //   comment: '用户ID',
   // })
+  @Allow()
   userId: number
 }
 

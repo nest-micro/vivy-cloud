@@ -1,5 +1,5 @@
 import { Allow } from 'class-validator'
-import { LoginType, BusinessStatus } from '@vivy-cloud/common-logger'
+import { LoginType, OperStatus } from '@vivy-cloud/common-logger'
 import { PartialType } from '@nestjs/mapped-types'
 import { PaginateDto } from '@vivy-cloud/common-core'
 
@@ -32,10 +32,10 @@ export class CreateLoginLogDto {
   //   type: 'tinyint',
   //   unsigned: true,
   //   default: 0,
-  //   comment: '登录状态(enum BusinessStatus)',
+  //   comment: '登录状态(enum OperStatus)',
   // })
   @Allow()
-  loginStatus: BusinessStatus
+  loginStatus: OperStatus
 
   // @Column({
   //   name: 'login_ip',

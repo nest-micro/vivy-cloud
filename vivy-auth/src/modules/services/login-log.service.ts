@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { IpUtils, RequestContextService } from '@vivy-cloud/common-core'
-import { LoginType, BusinessStatus } from '@vivy-cloud/common-logger'
+import { LoginType, OperStatus } from '@vivy-cloud/common-logger'
 import { RemoteLogService } from './remote-log.service'
 import { LoginLogDto } from './dto/login-log.dto'
 
@@ -14,7 +14,7 @@ export class LoginLogService {
    * @date 2023-05-11 22:03:07
    */
   async error(type: LoginType, name: string, message: string) {
-    this.saveLoginLog(type, name, BusinessStatus.FAIL, message)
+    this.saveLoginLog(type, name, OperStatus.FAIL, message)
   }
 
   /**
@@ -23,7 +23,7 @@ export class LoginLogService {
    * @date 2023-05-11 22:03:07
    */
   async success(type: LoginType, name: string, message: string) {
-    this.saveLoginLog(type, name, BusinessStatus.SUCCESS, message)
+    this.saveLoginLog(type, name, OperStatus.SUCCESS, message)
   }
 
   /**
@@ -31,7 +31,7 @@ export class LoginLogService {
    * @author vivy
    * @date 2023-05-11 22:03:07
    */
-  private saveLoginLog(type: LoginType, name: string, status: BusinessStatus, message: string) {
+  private saveLoginLog(type: LoginType, name: string, status: OperStatus, message: string) {
     const loginLog = new LoginLogDto()
     loginLog.loginName = name
     loginLog.loginType = type

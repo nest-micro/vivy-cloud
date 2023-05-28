@@ -30,19 +30,19 @@ export class SysPost extends BaseBusinessEntity {
   postCode: string
 
   @Column({
-    name: 'role_sort',
+    name: 'post_sort',
     type: 'int',
     default: 0,
     comment: '显示顺序',
   })
-  roleSort: number
+  postSort: number
 
   @Column({
     name: 'status',
     type: 'char',
     length: 1,
     default: '0',
-    comment: '部门状态（0正常 1停用）',
+    comment: '岗位状态（0正常 1停用）',
   })
   status: string
 }

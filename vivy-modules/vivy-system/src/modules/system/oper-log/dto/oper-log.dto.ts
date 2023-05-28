@@ -1,5 +1,5 @@
 import { Allow } from 'class-validator'
-import { BusinessType, BusinessStatus, OperatorType } from '@vivy-cloud/common-logger'
+import { OperType, OperStatus } from '@vivy-cloud/common-logger'
 import { PartialType } from '@nestjs/mapped-types'
 import { PaginateDto } from '@vivy-cloud/common-core'
 
@@ -18,22 +18,13 @@ export class CreateOperLogDto {
   title: string
 
   // @Column({
-  //   name: 'business_type',
-  //   type: 'tinyint',
-  //   default: 0,
-  //   comment: '业务类型(enum BusinessType)',
-  // })
-  @Allow()
-  businessType: BusinessType
-
-  // @Column({
   //   name: 'oper_type',
   //   type: 'tinyint',
   //   default: 0,
-  //   comment: '操作类别(enum OperatorType)',
+  //   comment: '操作类型(enum OperType)',
   // })
   @Allow()
-  operType: OperatorType
+  operType: OperType
 
   // @Column({
   //   name: 'oper_name',
@@ -79,10 +70,10 @@ export class CreateOperLogDto {
   //   name: 'oper_status',
   //   type: 'tinyint',
   //   default: 0,
-  //   comment: '操作状态(enum BusinessStatus)',
+  //   comment: '操作状态(enum OperStatus)',
   // })
   @Allow()
-  operStatus: BusinessStatus
+  operStatus: OperStatus
 
   // @Column({
   //   name: 'request_url',

@@ -42,7 +42,7 @@ export class SysRole extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     default: '0',
-    comment: '部门状态（0正常 1停用）',
+    comment: '角色状态（0正常 1停用）',
   })
   status: string
 }

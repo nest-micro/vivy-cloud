@@ -51,7 +51,7 @@ export class SysUser extends BaseBusinessEntity {
     name: 'email',
     type: 'varchar',
     length: 50,
-    default: '',
+    nullable: true,
     comment: '用户邮箱',
   })
   email: string
@@ -60,7 +60,7 @@ export class SysUser extends BaseBusinessEntity {
     name: 'phonenumber',
     type: 'varchar',
     length: 11,
-    default: '',
+    nullable: true,
     comment: '手机号码',
   })
   phonenumber: string
@@ -78,7 +78,7 @@ export class SysUser extends BaseBusinessEntity {
     name: 'avatar',
     type: 'varchar',
     length: 255,
-    default: '',
+    nullable: true,
     comment: '头像地址',
   })
   avatar: string

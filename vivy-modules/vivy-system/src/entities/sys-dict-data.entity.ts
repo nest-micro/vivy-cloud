@@ -7,11 +7,19 @@ import { BaseBusinessEntity } from '@vivy-cloud/common-core'
 @Entity({ name: 'sys_dict_data' })
 export class SysDictData extends BaseBusinessEntity {
   @PrimaryGeneratedColumn({
-    name: 'dict_code',
+    name: 'dict_id',
     type: 'int',
-    comment: '字典编码',
+    comment: '字典ID',
   })
-  dictCode: number
+  dictId: number
+
+  @Column({
+    name: 'dict_type',
+    type: 'varchar',
+    length: 100,
+    comment: '字典类型',
+  })
+  dictType: string
 
   @Column({
     name: 'dict_label',
@@ -25,7 +33,6 @@ export class SysDictData extends BaseBusinessEntity {
     name: 'dict_value',
     type: 'varchar',
     length: 100,
-    unique: true,
     comment: '字典键值',
   })
   dictValue: string
@@ -51,7 +58,7 @@ export class SysDictData extends BaseBusinessEntity {
     name: 'css_class',
     type: 'varchar',
     length: 100,
-    default: '',
+    nullable: true,
     comment: '样式属性（其他样式扩展）',
   })
   cssClass: string
@@ -60,7 +67,7 @@ export class SysDictData extends BaseBusinessEntity {
     name: 'list_class',
     type: 'varchar',
     length: 100,
-    default: '',
+    nullable: true,
     comment: '表格回显样式',
   })
   listClass: string

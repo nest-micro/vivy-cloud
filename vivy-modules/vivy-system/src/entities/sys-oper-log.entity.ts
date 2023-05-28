@@ -23,20 +23,11 @@ export class SysOperLog extends BaseTimeEntity {
   title: string
 
   @Column({
-    name: 'business_type',
-    type: 'tinyint',
-    unsigned: true,
-    default: 0,
-    comment: '业务类型(enum BusinessType)',
-  })
-  businessType: number
-
-  @Column({
     name: 'oper_type',
     type: 'tinyint',
     unsigned: true,
     default: 0,
-    comment: '操作类别(enum OperatorType)',
+    comment: '操作类型(enum OperType)',
   })
   operType: number
 
@@ -81,7 +72,7 @@ export class SysOperLog extends BaseTimeEntity {
     type: 'tinyint',
     unsigned: true,
     default: 0,
-    comment: '操作状态(enum BusinessStatus)',
+    comment: '操作状态(enum OperStatus)',
   })
   operStatus: number
 

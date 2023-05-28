@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
-import { AjaxResult, ISysLoginUser } from '@vivy-cloud/common-core'
+import { AjaxResult, SysLoginUser } from '@vivy-cloud/common-core'
 import { InnerAuth } from '@vivy-cloud/common-security'
 import { isEmpty } from 'lodash'
 import { UserService } from '../system/user/user.service'
@@ -23,7 +23,7 @@ export class RemoteUserController {
       return AjaxResult.error('用户名错误')
     }
 
-    const loginUser = new ISysLoginUser()
+    const loginUser = new SysLoginUser()
     loginUser.sysUser = sysUser
     // loginUser.roles = ['admin']
     // loginUser.permissions = ['*:*:*']

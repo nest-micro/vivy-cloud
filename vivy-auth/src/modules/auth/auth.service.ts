@@ -1,6 +1,6 @@
 import { isEmpty } from 'lodash'
 import { Injectable } from '@nestjs/common'
-import { ISysLoginUser, ServiceException, PasswordUtils, UserStatusEnums } from '@vivy-cloud/common-core'
+import { SysLoginUser, ServiceException, PasswordUtils, UserStatusEnums } from '@vivy-cloud/common-core'
 import { RemoteUserService } from '../services/remote-user.service'
 
 @Injectable()
@@ -12,7 +12,7 @@ export class AuthService {
    * @author vivy
    * @date 2023-05-03 19:13:49
    */
-  async login(username: string, password: string): Promise<ISysLoginUser> {
+  async login(username: string, password: string): Promise<SysLoginUser> {
     if (isEmpty(username) || isEmpty(password)) {
       throw new ServiceException('用户/密码必须填写')
     }

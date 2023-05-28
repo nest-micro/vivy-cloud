@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { AjaxResult } from '@vivy-cloud/common-core'
-import { Log, BusinessType } from '@vivy-cloud/common-logger'
+import { Log, OperType } from '@vivy-cloud/common-logger'
 import { OperLogService } from './oper-log.service'
 import { SearchOperLogDto, CreateOperLogDto } from './dto/oper-log.dto'
 
@@ -25,7 +25,7 @@ export class OperLogController {
    * @author vivy
    * @date 2023-04-26 17:14:14
    */
-  @Log('操作日志', BusinessType.INSERT)
+  @Log('操作日志', OperType.INSERT)
   @Post('add')
   async add(@Body() operLog: CreateOperLogDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.operLogService.add(operLog))
@@ -36,7 +36,7 @@ export class OperLogController {
    * @author vivy
    * @date 2023-04-26 17:14:14
    */
-  @Log('操作日志', BusinessType.CLEAN)
+  @Log('操作日志', OperType.CLEAN)
   @Post('clear')
   async clear(): Promise<AjaxResult> {
     return AjaxResult.success(await this.operLogService.clear())

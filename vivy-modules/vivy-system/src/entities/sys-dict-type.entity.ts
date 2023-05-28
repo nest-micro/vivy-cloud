@@ -25,7 +25,6 @@ export class SysDictType extends BaseBusinessEntity {
     name: 'dict_type',
     type: 'varchar',
     length: 100,
-    unique: true,
     comment: '字典类型',
   })
   dictType: string

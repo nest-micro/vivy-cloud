@@ -25,7 +25,7 @@ export class UserService {
   }
 
   /**
-   * 添加操作日志
+   * 添加用户
    * @author vivy
    * @date 2023-04-26 17:14:14
    */
@@ -34,7 +34,7 @@ export class UserService {
   }
 
   /**
-   * 清空操作日志
+   * 更新用户
    * @author vivy
    * @date 2023-04-26 17:14:14
    */

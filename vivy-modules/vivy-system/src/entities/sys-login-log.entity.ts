@@ -36,7 +36,7 @@ export class SysLoginLog extends BaseTimeEntity {
     type: 'tinyint',
     unsigned: true,
     default: 0,
-    comment: '登录状态(enum BusinessStatus)',
+    comment: '登录状态(enum OperStatus)',
   })
   loginStatus: number
 
