@@ -42,9 +42,9 @@ export class ProxyAuthFilter implements ProxyFilter {
     }
 
     // 设置用户信息到请求头
-    request.headers[SecurityConstants.USER_KEY] = this.tokenService.getUserKey(claims)
-    request.headers[SecurityConstants.USER_ID] = this.tokenService.getUserId(claims) as unknown as string
-    request.headers[SecurityConstants.USER_NAME] = this.tokenService.getUserName(claims)
+    request.headers[SecurityConstants.USER_SK] = claims[SecurityConstants.USER_SK]
+    request.headers[SecurityConstants.USER_ID] = claims[SecurityConstants.USER_ID] as unknown as string
+    request.headers[SecurityConstants.USER_NAME] = claims[SecurityConstants.USER_NAME]
     // 内部请求来源参数清除
     delete request.headers[SecurityConstants.FROM_SOURCE]
   }

@@ -41,14 +41,4 @@ export class UserController {
   async update(@Body() user: UpdateUserDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.userService.update(user))
   }
-
-  /**
-   * 根据 Token 获取缓存的用户信息
-   * @author vivy
-   * @date 2023-05-24 18:40:52
-   */
-  @Get('getLoginUserInfo')
-  async getLoginUserInfo(): Promise<AjaxResult> {
-    return AjaxResult.success(this.securityContextService.getLoginUser())
-  }
 }

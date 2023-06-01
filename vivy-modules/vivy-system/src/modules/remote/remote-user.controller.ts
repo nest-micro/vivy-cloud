@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common'
+import { Controller, Get, Param } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { AjaxResult, SysLoginUser } from '@vivy-cloud/common-core'
 import { InnerAuth } from '@vivy-cloud/common-security'
@@ -16,8 +16,8 @@ export class RemoteUserController {
    * @date 2023-05-07 19:11:06
    */
   @InnerAuth()
-  @Get('getUserInfo')
-  async getUserInfo(@Query('username') username: string): Promise<AjaxResult> {
+  @Get(':username')
+  async getUserInfo(@Param('username') username: string): Promise<AjaxResult> {
     const sysUser = await this.userService.selectUserByUserName(username)
     if (isEmpty(sysUser)) {
       return AjaxResult.error('用户名错误')

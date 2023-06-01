@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req } from '@nestjs/common'
+import { Body, Controller, Get, Post, Req } from '@nestjs/common'
 import { AjaxResult } from '@vivy-cloud/common-core'
 import { TokenService } from '@vivy-cloud/common-security'
 import { LoginType } from '@vivy-cloud/common-logger'
@@ -62,5 +62,17 @@ export class AuthController {
       }
     }
     return AjaxResult.success(null, '刷新成功')
+  }
+
+  /**
+   * 根据 Token 获取缓存的用户信息
+   * @author vivy
+   * @date 2023-05-24 18:40:52
+   */
+  @Get('getLoginUserInfo')
+  async getLoginUserInfo(@Req() req: Request): Promise<AjaxResult> {
+    const token = this.tokenService.getToken(req)
+    const loginUser = await this.tokenService.getLoginUser(token)
+    return AjaxResult.success(loginUser)
   }
 }

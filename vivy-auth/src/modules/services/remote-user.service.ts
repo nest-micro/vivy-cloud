@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 // @ts-nocheck
 import { Injectable } from '@nestjs/common'
-import { Get, Query, SetHeader, ResponseBody } from '@nest-micro/http'
+import { Get, Param, SetHeader, ResponseBody } from '@nest-micro/http'
 import { Loadbalanced } from '@nest-micro/loadbalance'
 import { ServiceNameEnums, SysLoginUser, AjaxResult } from '@vivy-cloud/common-core'
 import { SecurityConstants } from '@vivy-cloud/common-core/lib/constants'
@@ -18,8 +18,8 @@ export class RemoteUserService {
    * @author vivy
    * @date 2023-05-07 19:11:06
    */
-  @Get('remote/user/getUserInfo')
+  @Get('remote/user/:username')
   @ResponseBody()
   @SetHeader(SecurityConstants.FROM_SOURCE, SecurityConstants.SOURCE_INNER)
-  async getUserInfo(@Query('username') username: string): Promise<AjaxResult<SysLoginUser>> {}
+  async getUserInfo(@Param('username') username: string): Promise<AjaxResult<SysLoginUser>> {}
 }
