@@ -3,6 +3,20 @@ import { PartialType } from '@nestjs/mapped-types'
 import { PaginateDto } from '@vivy-cloud/common-core'
 
 /**
+ * 列表
+ */
+export class ListDictDataDto extends PaginateDto {
+  // @Column({
+  //   name: 'dict_type',
+  //   type: 'varchar',
+  //   length: 100,
+  //   comment: '字典类型',
+  // })
+  @Allow()
+  dictType: string
+}
+
+/**
  * 新增
  */
 export class CreateDictDataDto {
@@ -94,18 +108,4 @@ export class UpdateDictDataDto extends PartialType(CreateDictDataDto) {
   // })
   @Allow()
   dictId: number
-}
-
-/**
- * 查询搜索
- */
-export class SearchDictDataDto extends PaginateDto {
-  // @Column({
-  //   name: 'dict_type',
-  //   type: 'varchar',
-  //   length: 100,
-  //   comment: '字典类型',
-  // })
-  @Allow()
-  dictType: string
 }

@@ -1,23 +1,28 @@
 import { isEmpty } from 'lodash'
 import { Injectable } from '@nestjs/common'
 import { SysLoginUser, ServiceException, PasswordUtils, UserStatusEnums } from '@vivy-cloud/common-core'
-import { RemoteUserService } from '../services/remote-user.service'
+import { LoginInfoDto } from './dto/login.dto'
+import { RpcUserService } from '../services/rpc-user.service'
 
+/**
+ * 认证管理
+ * @author vivy
+ */
 @Injectable()
 export class AuthService {
-  constructor(private remoteUserService: RemoteUserService) {}
+  constructor(private rpcUserService: RpcUserService) {}
 
   /**
    * 用户登录
-   * @author vivy
-   * @date 2023-05-03 19:13:49
+   * @param form 登录账户信息
    */
-  async login(username: string, password: string): Promise<SysLoginUser> {
+  async login(form: LoginInfoDto): Promise<SysLoginUser> {
+    const { username, password } = form
     if (isEmpty(username) || isEmpty(password)) {
       throw new ServiceException('用户/密码必须填写')
     }
 
-    const userResult = await this.remoteUserService.getUserInfo(username)
+    const userResult = await this.rpcUserService.getUserInfo(username)
     if (isEmpty(userResult) || isEmpty(userResult.data)) {
       throw new ServiceException('登录用户不存在')
     }
@@ -43,8 +48,6 @@ export class AuthService {
 
   /**
    * 用户退出
-   * @author vivy
-   * @date 2023-05-03 19:13:49
    */
   async logout() {
     throw new Error('Method not implemented.')
@@ -52,8 +55,6 @@ export class AuthService {
 
   /**
    * 刷新 Token
-   * @author vivy
-   * @date 2023-05-03 19:13:49
    */
   async refresh() {
     throw new Error('Method not implemented.')

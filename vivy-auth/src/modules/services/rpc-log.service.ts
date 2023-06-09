@@ -8,15 +8,14 @@ import { SecurityConstants } from '@vivy-cloud/common-core/lib/constants'
 import { LoginLogDto } from './dto/login-log.dto'
 
 /**
- * 远程日志服务
+ * 远程日志服务调用
  */
 @Injectable()
 @Loadbalanced(ServiceNameEnums.SYSTEM_SERVICE)
-export class RemoteLogService {
+export class RpcLogService {
   /**
    * 添加登录日志
-   * @author vivy
-   * @date 2023-05-11 21:18:42
+   * @param 登录日志信息
    */
   @Post('remote/log/saveLoginLog')
   @SetHeader(SecurityConstants.FROM_SOURCE, SecurityConstants.SOURCE_INNER)

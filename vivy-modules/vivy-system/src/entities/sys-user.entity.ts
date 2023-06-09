@@ -88,6 +88,7 @@ export class SysUser extends BaseBusinessEntity {
     type: 'varchar',
     length: 255,
     default: '',
+    select: false,
     comment: '密码',
   })
   password: string

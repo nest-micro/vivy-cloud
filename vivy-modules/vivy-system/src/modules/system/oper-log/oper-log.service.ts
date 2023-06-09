@@ -3,8 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { paginate, Pagination } from 'nestjs-typeorm-paginate'
 import { SysOperLog } from '@/entities/sys-oper-log.entity'
-import { SearchOperLogDto, CreateOperLogDto } from './dto/oper-log.dto'
+import { ListOperLogDto, CreateOperLogDto } from './dto/oper-log.dto'
 
+/**
+ * 操作日志
+ * @author vivy
+ */
 @Injectable()
 export class OperLogService {
   constructor(
@@ -13,11 +17,11 @@ export class OperLogService {
   ) {}
 
   /**
-   * 查询操作日志列表
-   * @author vivy
-   * @date 2023-04-27 20:33:05
+   * 操作日志列表
+   * @param operLog 操作日志信息
+   * @returns 操作日志列表
    */
-  async list(operLog: SearchOperLogDto): Promise<Pagination<SysOperLog>> {
+  async list(operLog: ListOperLogDto): Promise<Pagination<SysOperLog>> {
     return paginate<SysOperLog>(this.operLogRepository, {
       page: operLog.page,
       limit: operLog.limit,
@@ -26,8 +30,7 @@ export class OperLogService {
 
   /**
    * 添加操作日志
-   * @author vivy
-   * @date 2023-04-26 17:14:14
+   * @param operLog 操作日志信息
    */
   async add(operLog: CreateOperLogDto): Promise<void> {
     await this.operLogRepository.insert(operLog)
@@ -35,8 +38,6 @@ export class OperLogService {
 
   /**
    * 清空操作日志
-   * @author vivy
-   * @date 2023-04-26 17:14:14
    */
   async clear(): Promise<void> {
     await this.operLogRepository.clear()

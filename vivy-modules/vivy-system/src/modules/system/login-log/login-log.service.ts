@@ -3,8 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { paginate, Pagination } from 'nestjs-typeorm-paginate'
 import { SysLoginLog } from '@/entities/sys-login-log.entity'
-import { SearchLoginLogDto, CreateLoginLogDto } from './dto/login-log.dto'
+import { ListLoginLogDto, CreateLoginLogDto } from './dto/login-log.dto'
 
+/**
+ * 登录日志
+ * @author vivy
+ */
 @Injectable()
 export class LoginLogService {
   constructor(
@@ -14,10 +18,10 @@ export class LoginLogService {
 
   /**
    * 查询登录日志列表
-   * @author vivy
-   * @date 2023-04-27 20:33:05
+   * @param loginLog 登录日志信息
+   * @returns 登录日志列表
    */
-  async list(loginLog: SearchLoginLogDto): Promise<Pagination<SysLoginLog>> {
+  async list(loginLog: ListLoginLogDto): Promise<Pagination<SysLoginLog>> {
     return paginate<SysLoginLog>(this.loginLogRepository, {
       page: loginLog.page,
       limit: loginLog.limit,
@@ -26,8 +30,7 @@ export class LoginLogService {
 
   /**
    * 添加登录日志
-   * @author vivy
-   * @date 2023-04-26 17:14:14
+   * @param loginLog 登录日志信息
    */
   async add(loginLog: CreateLoginLogDto): Promise<void> {
     await this.loginLogRepository.insert(loginLog)
@@ -35,8 +38,6 @@ export class LoginLogService {
 
   /**
    * 清空登录日志
-   * @author vivy
-   * @date 2023-04-26 17:14:14
    */
   async clear(): Promise<void> {
     await this.loginLogRepository.clear()

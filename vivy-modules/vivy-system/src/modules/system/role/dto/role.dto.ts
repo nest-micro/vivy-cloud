@@ -1,73 +1,73 @@
-import { Allow } from 'class-validator'
-import { PartialType } from '@nestjs/mapped-types'
+import { Allow, IsArray, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator'
+import { ApiPropertyOptional } from '@nestjs/swagger'
 import { PaginateDto } from '@vivy-cloud/common-core'
+
+/**
+ * 列表
+ */
+export class ListRoleDto extends PaginateDto {
+  /** 角色名称 */
+  @Allow()
+  @ApiPropertyOptional()
+  roleName: string = ''
+
+  /** 角色编码 */
+  @Allow()
+  @ApiPropertyOptional()
+  roleCode: string = ''
+
+  /** 角色状态（0正常 1停用） */
+  @Allow()
+  @ApiPropertyOptional()
+  status: string
+}
 
 /**
  * 新增
  */
 export class CreateRoleDto {
-  // @Column({
-  //   name: 'role_name',
-  //   type: 'varchar',
-  //   length: 50,
-  //   comment: '角色名称',
-  // })
-  @Allow()
+  /** 角色名称 */
+  @IsNotEmpty()
+  @MaxLength(50)
   roleName: string
 
-  // @Column({
-  //   name: 'role_code',
-  //   type: 'varchar',
-  //   length: 50,
-  //   comment: '角色编码',
-  // })
-  @Allow()
+  /** 角色编码 */
+  @IsNotEmpty()
+  @MaxLength(50)
   roleCode: string
 
-  // @Column({
-  //   name: 'role_sort',
-  //   type: 'int',
-  //   default: 0,
-  //   comment: '显示顺序',
-  // })
-  @Allow()
+  /** 显示顺序 */
+  @IsOptional()
+  @IsInt()
   roleSort: number
 
-  // @Column({
-  //   name: 'status',
-  //   type: 'char',
-  //   length: 1,
-  //   default: '0',
-  //   comment: '部门状态（0正常 1停用）',
-  // })
-  @Allow()
+  /** 角色状态（0正常 1停用） */
+  @IsOptional()
+  @MaxLength(1)
   status: string
 
-  // @Column({
-  //   name: 'remark',
-  //   type: 'varchar',
-  //   length: 500,
-  //   nullable: true,
-  //   comment: '备注',
-  // })
-  @Allow()
+  /** 备注 */
+  @IsOptional()
+  @MaxLength(500)
   remark: string
+
+  /** 菜单权限 */
+  @IsOptional()
+  @IsArray()
+  menuIds: number[]
+
+  /** 部门权限 */
+  @IsOptional()
+  @IsArray()
+  deptIds: number[]
 }
 
 /**
  * 更新
  */
-export class UpdateRoleDto extends PartialType(CreateRoleDto) {
-  // @PrimaryGeneratedColumn({
-  //   name: 'role_id',
-  //   type: 'int',
-  //   comment: '角色ID',
-  // })
-  @Allow()
+export class UpdateRoleDto extends CreateRoleDto {
+  /** 角色ID */
+  @IsNotEmpty()
+  @IsInt()
   roleId: number
 }
-
-/**
- * 查询搜索
- */
-export class SearchRoleDto extends PaginateDto {}

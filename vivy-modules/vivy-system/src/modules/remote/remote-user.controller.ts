@@ -5,6 +5,10 @@ import { InnerAuth } from '@vivy-cloud/common-security'
 import { isEmpty } from 'lodash'
 import { UserService } from '../system/user/user.service'
 
+/**
+ * 远程服务-用户信息
+ * @author vivy
+ */
 @ApiTags('远程服务-用户信息')
 @Controller('remote/user')
 export class RemoteUserController {
@@ -12,8 +16,7 @@ export class RemoteUserController {
 
   /**
    * 根据用户名查询用户信息
-   * @author vivy
-   * @date 2023-05-07 19:11:06
+   * @param username 用户名称
    */
   @InnerAuth()
   @Get(':username')

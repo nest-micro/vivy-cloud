@@ -1,134 +1,110 @@
-import { Allow } from 'class-validator'
-import { PartialType } from '@nestjs/mapped-types'
+import { Allow, IsArray, IsEmail, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator'
+import { OmitType } from '@nestjs/mapped-types'
+import { ApiPropertyOptional } from '@nestjs/swagger'
 import { PaginateDto } from '@vivy-cloud/common-core'
+
+/**
+ * 列表
+ */
+export class ListUserDto extends PaginateDto {
+  /** 部门ID */
+  @Allow()
+  @ApiPropertyOptional()
+  deptId: number
+
+  /** 用户账号 */
+  @Allow()
+  @ApiPropertyOptional()
+  userName: string = ''
+
+  /** 用户昵称 */
+  @Allow()
+  @ApiPropertyOptional()
+  nickName: string = ''
+
+  /** 用户性别（0男 1女 2未知） */
+  @Allow()
+  @ApiPropertyOptional()
+  sex: string
+
+  /** 用户状态（0正常 1停用） */
+  @Allow()
+  @ApiPropertyOptional()
+  status: string
+}
 
 /**
  * 新增
  */
 export class CreateUserDto {
-  // @Column({
-  //   name: 'dept_id',
-  //   type: 'int',
-  //   nullable: true,
-  //   comment: '部门ID',
-  // })
-  @Allow()
+  /** 部门ID */
+  @IsOptional()
+  @IsInt()
   deptId: number
 
-  // @Column({
-  //   name: 'user_name',
-  //   type: 'varchar',
-  //   length: 50,
-  //   unique: true,
-  //   comment: '用户账号',
-  // })
-  @Allow()
+  /** 用户账号 */
+  @IsNotEmpty()
+  @MaxLength(50)
   userName: string
 
-  // @Column({
-  //   name: 'nick_name',
-  //   type: 'varchar',
-  //   length: 50,
-  //   comment: '用户昵称',
-  // })
-  @Allow()
+  /** 用户昵称 */
+  @IsNotEmpty()
+  @MaxLength(50)
   nickName: string
 
-  // @Column({
-  //   name: 'user_type',
-  //   type: 'char',
-  //   length: 2,
-  //   default: '00',
-  //   comment: '用户类型（00系统用户）',
-  // })
-  @Allow()
-  userType: string
-
-  // @Column({
-  //   name: 'email',
-  //   type: 'varchar',
-  //   length: 50,
-  //   nullable: true,
-  //   comment: '用户邮箱',
-  // })
-  @Allow()
+  /** 用户邮箱 */
+  @IsOptional()
+  @IsEmail()
+  @MaxLength(50)
   email: string
 
-  // @Column({
-  //   name: 'phonenumber',
-  //   type: 'varchar',
-  //   length: 11,
-  //   nullable: true,
-  //   comment: '手机号码',
-  // })
-  @Allow()
+  /** 手机号码 */
+  @IsOptional()
+  @MaxLength(11)
   phonenumber: string
 
-  // @Column({
-  //   name: 'sex',
-  //   type: 'char',
-  //   length: 1,
-  //   default: '0',
-  //   comment: '用户性别（0男 1女 2未知）',
-  // })
-  @Allow()
+  /** 用户性别（0男 1女 2未知） */
+  @IsOptional()
+  @MaxLength(1)
   sex: string
 
-  // @Column({
-  //   name: 'avatar',
-  //   type: 'varchar',
-  //   length: 255,
-  //   nullable: true,
-  //   comment: '头像地址',
-  // })
-  @Allow()
+  /** 头像地址 */
+  @IsOptional()
+  @MaxLength(255)
   avatar: string
 
-  // @Column({
-  //   name: 'password',
-  //   type: 'varchar',
-  //   length: 255,
-  //   default: '',
-  //   comment: '密码',
-  // })
-  @Allow()
+  /** 密码 */
+  @IsNotEmpty()
+  @MaxLength(255)
   password: string
 
-  // @Column({
-  //   name: 'status',
-  //   type: 'char',
-  //   length: 1,
-  //   default: '0',
-  //   comment: '用户状态（0正常 1停用）',
-  // })
-  @Allow()
+  /** 用户状态（0正常 1停用） */
+  @IsOptional()
+  @MaxLength(1)
   status: string
 
-  // @Column({
-  //   name: 'remark',
-  //   type: 'varchar',
-  //   length: 500,
-  //   nullable: true,
-  //   comment: '备注',
-  // })
-  @Allow()
+  /** 备注 */
+  @IsOptional()
+  @MaxLength(500)
   remark: string
+
+  /** 用户角色 */
+  @IsOptional()
+  @IsArray()
+  roleIds: number[]
+
+  /** 用户岗位 */
+  @IsOptional()
+  @IsArray()
+  postIds: number[]
 }
 
 /**
  * 更新
  */
-export class UpdateUserDto extends PartialType(CreateUserDto) {
-  // @PrimaryGeneratedColumn({
-  //   name: 'user_id',
-  //   type: 'int',
-  //   comment: '用户ID',
-  // })
-  @Allow()
+export class UpdateUserDto extends OmitType(CreateUserDto, ['password']) {
+  /** 用户ID */
+  @IsNotEmpty()
+  @IsInt()
   userId: number
 }
-
-/**
- * 查询搜索
- */
-export class SearchUserDto extends PaginateDto {}

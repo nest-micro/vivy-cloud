@@ -1,73 +1,63 @@
-import { Allow } from 'class-validator'
-import { PartialType } from '@nestjs/mapped-types'
+import { Allow, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator'
+import { ApiPropertyOptional } from '@nestjs/swagger'
 import { PaginateDto } from '@vivy-cloud/common-core'
+
+/**
+ * 列表
+ */
+export class ListPostDto extends PaginateDto {
+  /** 岗位名称 */
+  @Allow()
+  @ApiPropertyOptional()
+  postName: string = ''
+
+  /** 岗位编码 */
+  @Allow()
+  @ApiPropertyOptional()
+  postCode: string = ''
+
+  /** 岗位状态（0正常 1停用） */
+  @Allow()
+  @ApiPropertyOptional()
+  status: string
+}
 
 /**
  * 新增
  */
 export class CreatePostDto {
-  // @Column({
-  //   name: 'post_name',
-  //   type: 'varchar',
-  //   length: 50,
-  //   comment: '岗位名称',
-  // })
-  @Allow()
+  /** 岗位名称 */
+  @IsNotEmpty()
+  @MaxLength(50)
   postName: string
 
-  // @Column({
-  //   name: 'post_code',
-  //   type: 'varchar',
-  //   length: 50,
-  //   comment: '岗位编码',
-  // })
-  @Allow()
+  /** 岗位编码 */
+  @IsNotEmpty()
+  @MaxLength(50)
   postCode: string
 
-  // @Column({
-  //   name: 'post_sort',
-  //   type: 'int',
-  //   default: 0,
-  //   comment: '显示顺序',
-  // })
-  @Allow()
+  /** 显示顺序 */
+  @IsOptional()
+  @IsInt()
   postSort: number
 
-  // @Column({
-  //   name: 'status',
-  //   type: 'char',
-  //   length: 1,
-  //   default: '0',
-  //   comment: '部门状态（0正常 1停用）',
-  // })
-  @Allow()
+  /** 岗位状态（0正常 1停用） */
+  @IsOptional()
+  @MaxLength(1)
   status: string
 
-  // @Column({
-  //   name: 'remark',
-  //   type: 'varchar',
-  //   length: 500,
-  //   nullable: true,
-  //   comment: '备注',
-  // })
-  @Allow()
+  /** 备注 */
+  @IsOptional()
+  @MaxLength(500)
   remark: string
 }
 
 /**
  * 更新
  */
-export class UpdatePostDto extends PartialType(CreatePostDto) {
-  // @PrimaryGeneratedColumn({
-  //   name: 'post_id',
-  //   type: 'int',
-  //   comment: '岗位ID',
-  // })
-  @Allow()
+export class UpdatePostDto extends CreatePostDto {
+  /** 备注 */
+  @IsNotEmpty()
+  @IsInt()
   postId: number
 }
-
-/**
- * 查询搜索
- */
-export class SearchPostDto extends PaginateDto {}

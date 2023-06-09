@@ -7,6 +7,10 @@ import { LoginLogService } from '../system/login-log/login-log.service'
 import { CreateOperLogDto } from '../system/oper-log/dto/oper-log.dto'
 import { CreateLoginLogDto } from '../system/login-log/dto/login-log.dto'
 
+/**
+ * 远程服务-日志管理
+ * @author vivy
+ */
 @ApiTags('远程服务-日志管理')
 @Controller('remote/log')
 export class RemoteLogController {
@@ -14,8 +18,7 @@ export class RemoteLogController {
 
   /**
    * 添加操作日志
-   * @author vivy
-   * @date 2023-04-26 17:14:14
+   * @param operLog 操作日志信息
    */
   @InnerAuth()
   @Post('saveOperLog')
@@ -25,8 +28,7 @@ export class RemoteLogController {
 
   /**
    * 添加登录日志
-   * @author vivy
-   * @date 2023-05-08 21:09:42
+   * @param loginLog 登录日志信息
    */
   @InnerAuth()
   @Post('saveLoginLog')

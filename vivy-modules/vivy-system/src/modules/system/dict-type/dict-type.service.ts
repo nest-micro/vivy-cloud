@@ -3,8 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { paginate, Pagination } from 'nestjs-typeorm-paginate'
 import { SysDictType } from '@/entities/sys-dict-type.entity'
-import { SearchDictTypeDto, CreateDictTypeDto, UpdateDictTypeDto } from './dto/dict-type.dto'
+import { ListDictTypeDto, CreateDictTypeDto, UpdateDictTypeDto } from './dto/dict-type.dto'
 
+/**
+ * 字典类型管理
+ * @author vivy
+ */
 @Injectable()
 export class DictTypeService {
   constructor(
@@ -14,10 +18,10 @@ export class DictTypeService {
 
   /**
    * 查询字典类型列表
-   * @author vivy
-   * @date 2023-05-02 21:24:50
+   * @param dictType 字典类型信息
+   * @returns 字典类型列表
    */
-  async list(dictType: SearchDictTypeDto): Promise<Pagination<SysDictType>> {
+  async list(dictType: ListDictTypeDto): Promise<Pagination<SysDictType>> {
     return paginate<SysDictType>(
       this.dictTypeRepository,
       {
@@ -34,8 +38,7 @@ export class DictTypeService {
 
   /**
    * 添加字典类型
-   * @author vivy
-   * @date 2023-04-26 17:14:14
+   * @param dictType 字典类型信息
    */
   async add(dictType: CreateDictTypeDto): Promise<void> {
     await this.dictTypeRepository.insert(dictType)
@@ -43,8 +46,7 @@ export class DictTypeService {
 
   /**
    * 更新字典类型
-   * @author vivy
-   * @date 2023-04-26 17:14:14
+   * @param dictType 字典类型信息
    */
   async update(dictType: UpdateDictTypeDto): Promise<void> {
     await this.dictTypeRepository.update(dictType.dictId, dictType)

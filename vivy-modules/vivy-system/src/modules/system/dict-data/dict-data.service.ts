@@ -3,8 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { paginate, Pagination } from 'nestjs-typeorm-paginate'
 import { SysDictData } from '@/entities/sys-dict-data.entity'
-import { SearchDictDataDto, CreateDictDataDto, UpdateDictDataDto } from './dto/dict-data.dto'
+import { ListDictDataDto, CreateDictDataDto, UpdateDictDataDto } from './dto/dict-data.dto'
 
+/**
+ * 字典数据管理
+ * @author vivy
+ */
 @Injectable()
 export class DictDataService {
   constructor(
@@ -15,9 +19,10 @@ export class DictDataService {
   /**
    * 查询字典数据列表
    * @author vivy
-   * @date 2023-05-02 21:24:50
+   * @param dictData 字典数据信息
+   * @returns 字典数据列表
    */
-  async list(dictData: SearchDictDataDto): Promise<Pagination<SysDictData>> {
+  async list(dictData: ListDictDataDto): Promise<Pagination<SysDictData>> {
     return paginate<SysDictData>(
       this.dictDataRepository,
       {
@@ -37,8 +42,7 @@ export class DictDataService {
 
   /**
    * 添加字典数据
-   * @author vivy
-   * @date 2023-04-26 17:14:14
+   * @param dictData 字典数据信息
    */
   async add(dictData: CreateDictDataDto): Promise<void> {
     await this.dictDataRepository.insert(dictData)
@@ -46,21 +50,19 @@ export class DictDataService {
 
   /**
    * 更新字典数据
-   * @author vivy
-   * @date 2023-04-26 17:14:14
+   * @param dictData 字典数据信息
    */
   async update(dictData: UpdateDictDataDto): Promise<void> {
     await this.dictDataRepository.update(dictData.dictId, dictData)
   }
 
   /**
-   * 根据字典类型查询字典数据列表
-   * @author vivy
-   * @date 2023-05-27 18:33:27
+   * 根据字典类型查询字典数据选项列表
+   * @param dictType 字典类型
+   * @returns 字典数据选项列表
    */
-  optionByType(dictType: string): Promise<SysDictData[]> {
+  optionsByType(dictType: string): Promise<SysDictData[]> {
     return this.dictDataRepository.find({
-      select: ['dictId', 'dictLabel', 'dictValue', 'cssClass', 'listClass'],
       where: {
         dictType,
       },

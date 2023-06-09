@@ -1,6 +1,5 @@
 import { Allow } from 'class-validator'
 import { PartialType } from '@nestjs/mapped-types'
-import { PaginateDto } from '@vivy-cloud/common-core'
 
 /**
  * 新增
@@ -164,8 +163,3 @@ export class UpdateMenuDto extends PartialType(CreateMenuDto) {
   @Allow()
   menuId: number
 }
-
-/**
- * 查询搜索
- */
-export class SearchMenuDto extends PaginateDto {}

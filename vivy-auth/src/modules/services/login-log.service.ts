@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { IpUtils, RequestContextService } from '@vivy-cloud/common-core'
 import { LoginType, OperStatus } from '@vivy-cloud/common-logger'
-import { RemoteLogService } from './remote-log.service'
+import { RpcLogService } from './rpc-log.service'
 import { LoginLogDto } from './dto/login-log.dto'
 
 @Injectable()
 export class LoginLogService {
-  constructor(private remoteLogService: RemoteLogService, private requestContextService: RequestContextService) {}
+  constructor(private rpcLogService: RpcLogService, private requestContextService: RequestContextService) {}
 
   /**
    * 登录失败
@@ -44,7 +44,7 @@ export class LoginLogService {
     loginLog.loginLocation = `${region.country} ${region.province} ${region.city} ${region.isp}`
     loginLog.userAgent = request.headers['user-agent']
 
-    this.remoteLogService.saveLoginLog(loginLog).catch(() => {
+    this.rpcLogService.saveLoginLog(loginLog).catch(() => {
       // Do not handle errors
     })
   }

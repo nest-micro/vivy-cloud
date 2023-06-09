@@ -3,9 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { TreeUtils } from '@vivy-cloud/common-core'
 import { SysMenu } from '@/entities/sys-menu.entity'
-import { SearchMenuDto, CreateMenuDto, UpdateMenuDto } from './dto/menu.dto'
+import { CreateMenuDto, UpdateMenuDto } from './dto/menu.dto'
 import { MenuTreeVo } from './vo/menu.vo'
 
+/**
+ * 菜单管理
+ * @author vivy
+ */
 @Injectable()
 export class MenuService {
   constructor(
@@ -14,11 +18,9 @@ export class MenuService {
   ) {}
 
   /**
-   * 查询菜单列表
-   * @author vivy
-   * @date 2023-05-02 21:24:50
+   * 查询菜单树结构
    */
-  async tree(menu: SearchMenuDto): Promise<MenuTreeVo[]> {
+  async tree(): Promise<MenuTreeVo[]> {
     const list = await this.menuRepository.find({
       order: {
         menuSort: 'ASC',
@@ -32,8 +34,7 @@ export class MenuService {
 
   /**
    * 添加菜单
-   * @author vivy
-   * @date 2023-04-26 17:14:14
+   * @param menu 菜单信息
    */
   async add(menu: CreateMenuDto): Promise<void> {
     await this.menuRepository.insert(menu)
@@ -41,8 +42,7 @@ export class MenuService {
 
   /**
    * 更新菜单
-   * @author vivy
-   * @date 2023-04-26 17:14:14
+   * @param menu 菜单信息
    */
   async update(menu: UpdateMenuDto): Promise<void> {
     await this.menuRepository.update(menu.menuId, menu)

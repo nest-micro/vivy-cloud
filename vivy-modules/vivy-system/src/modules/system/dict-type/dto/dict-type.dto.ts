@@ -3,6 +3,11 @@ import { PartialType } from '@nestjs/mapped-types'
 import { PaginateDto } from '@vivy-cloud/common-core'
 
 /**
+ * 列表
+ */
+export class ListDictTypeDto extends PaginateDto {}
+
+/**
  * 新增
  */
 export class CreateDictTypeDto {
@@ -66,8 +71,3 @@ export class UpdateDictTypeDto extends PartialType(CreateDictTypeDto) {
   @Allow()
   dictId: number
 }
-
-/**
- * 查询搜索
- */
-export class SearchDictTypeDto extends PaginateDto {}

@@ -1,10 +1,14 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { AjaxResult } from '@vivy-cloud/common-core'
 import { Log, OperType } from '@vivy-cloud/common-logger'
 import { LoginLogService } from './login-log.service'
-import { SearchLoginLogDto, CreateLoginLogDto } from './dto/login-log.dto'
+import { ListLoginLogDto, CreateLoginLogDto } from './dto/login-log.dto'
 
+/**
+ * 登录日志
+ * @author vivy
+ */
 @ApiTags('登录日志')
 @Controller('login/log')
 export class LoginLogController {
@@ -12,18 +16,17 @@ export class LoginLogController {
 
   /**
    * 查询登录日志列表
-   * @author vivy
-   * @date 2023-04-27 20:33:05
+   * @param loginLog 登录日志信息
+   * @returns 登录日志列表
    */
   @Get('list')
-  async list(@Query() loginLog: SearchLoginLogDto): Promise<AjaxResult> {
+  async list(@Query() loginLog: ListLoginLogDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.loginLogService.list(loginLog))
   }
 
   /**
    * 添加登录日志
-   * @author vivy
-   * @date 2023-04-26 17:14:14
+   * @param loginLog 登录日志信息
    */
   @Log('登录日志', OperType.INSERT)
   @Post('add')
@@ -33,11 +36,9 @@ export class LoginLogController {
 
   /**
    * 清空登录日志
-   * @author vivy
-   * @date 2023-04-26 17:14:14
    */
   @Log('登录日志', OperType.CLEAN)
-  @Post('clear')
+  @Delete('clear')
   async clear(): Promise<AjaxResult> {
     return AjaxResult.success(await this.loginLogService.clear())
   }

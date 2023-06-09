@@ -4,6 +4,11 @@ import { PartialType } from '@nestjs/mapped-types'
 import { PaginateDto } from '@vivy-cloud/common-core'
 
 /**
+ * 列表
+ */
+export class ListLoginLogDto extends PaginateDto {}
+
+/**
  * 新增
  */
 export class CreateLoginLogDto {
@@ -90,8 +95,3 @@ export class UpdateLoginLogDto extends PartialType(CreateLoginLogDto) {
   @Allow()
   loginId: number
 }
-
-/**
- * 查询搜索
- */
-export class SearchLoginLogDto extends PaginateDto {}

@@ -8,15 +8,14 @@ import { ServiceNameEnums, SysLoginUser, AjaxResult } from '@vivy-cloud/common-c
 import { SecurityConstants } from '@vivy-cloud/common-core/lib/constants'
 
 /**
- * 远程用户服务
+ * 远程用户服务调用
  */
 @Injectable()
 @Loadbalanced(ServiceNameEnums.SYSTEM_SERVICE)
-export class RemoteUserService {
+export class RpcUserService {
   /**
    * 根据用户名查询用户信息
-   * @author vivy
-   * @date 2023-05-07 19:11:06
+   * @param username 用户名称
    */
   @Get('remote/user/:username')
   @ResponseBody()
