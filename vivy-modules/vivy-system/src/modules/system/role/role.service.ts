@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm'
 import { EntityManager, In, Like, Not, Repository } from 'typeorm'
 import { paginate, Pagination } from 'nestjs-typeorm-paginate'
-import { ServiceException, BaseStatusEnums, UserConstants } from '@vivy-cloud/common-core'
+import { ServiceException, BaseStatusEnums, UserConstants, IdentityUtils } from '@vivy-cloud/common-core'
 import { isEmpty, isArray, isObject } from 'lodash'
 import { SysRole } from '@/entities/sys-role.entity'
 import { SysRoleMenu } from '@/entities/sys-role-menu.entity'
@@ -164,15 +164,17 @@ export class RoleService {
     const Exception = new ServiceException('不允许操作超级管理员角色')
 
     if (isArray(role)) {
-      if (role.includes(UserConstants.ADMIN_ROLE_ID)) {
-        throw Exception
+      for (const id of role) {
+        if (IdentityUtils.isAdminRole(id)) {
+          throw Exception
+        }
       }
     } else if (isObject(role)) {
-      if (role.roleId === UserConstants.ADMIN_ROLE_ID) {
+      if (IdentityUtils.isAdminRole(role.roleId)) {
         throw Exception
       }
     } else {
-      if (role === UserConstants.ADMIN_ROLE_ID) {
+      if (IdentityUtils.isAdminRole(role)) {
         throw Exception
       }
     }
@@ -221,7 +223,7 @@ export class RoleService {
         roleSort: 'ASC',
       },
       where: {
-        roleId: Not(UserConstants.ADMIN_ROLE_ID),
+        roleId: Not(UserConstants.SUPER_ROLE),
         status: BaseStatusEnums.NORMAL,
       },
     })

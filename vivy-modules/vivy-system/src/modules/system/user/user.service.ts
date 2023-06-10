@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm'
 import { EntityManager, In, Like, Repository } from 'typeorm'
 import { paginate, Pagination } from 'nestjs-typeorm-paginate'
-import { ServiceException, PasswordUtils, UserConstants } from '@vivy-cloud/common-core'
+import { ServiceException, PasswordUtils, IdentityUtils } from '@vivy-cloud/common-core'
 import { isEmpty, isArray, isObject } from 'lodash'
 import { SysUser } from '@/entities/sys-user.entity'
 import { SysUserRole } from '@/entities/sys-user-role.entity'
@@ -153,15 +153,17 @@ export class UserService {
     const Exception = new ServiceException('不允许操作超级管理员用户')
 
     if (isArray(user)) {
-      if (user.includes(UserConstants.ADMIN_USER_ID)) {
-        throw Exception
+      for (const id of user) {
+        if (IdentityUtils.isAdminUser(id)) {
+          throw Exception
+        }
       }
     } else if (isObject(user)) {
-      if (user.userId === UserConstants.ADMIN_USER_ID) {
+      if (IdentityUtils.isAdminUser(user.userId)) {
         throw Exception
       }
     } else {
-      if (user === UserConstants.ADMIN_USER_ID) {
+      if (IdentityUtils.isAdminUser(user)) {
         throw Exception
       }
     }
@@ -190,11 +192,11 @@ export class UserService {
    */
   async selectUserByUserName(userName: string): Promise<SysUser> {
     return this.userRepository
-      .createQueryBuilder()
-      .select('*')
+      .createQueryBuilder('user')
+      .addSelect('user.password')
       .where({
         userName,
       })
-      .getRawOne()
+      .getOne()
   }
 }

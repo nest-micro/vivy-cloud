@@ -81,7 +81,7 @@ export class SysMenu extends BaseBusinessEntity {
   query: string
 
   @Column({
-    name: 'perms',
+    name: 'permission',
     type: 'varchar',
     length: 100,
     nullable: true,

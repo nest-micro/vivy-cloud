@@ -15,6 +15,9 @@ import { SysDictData } from '@/entities/sys-dict-data.entity'
 import { SysLoginLog } from '@/entities/sys-login-log.entity'
 import { SysOperLog } from '@/entities/sys-oper-log.entity'
 
+// common
+import { PermissionService } from './common/permission.service'
+
 // user
 import { UserService } from './user/user.service'
 import { UserController } from './user/user.controller'
@@ -81,6 +84,7 @@ import { LoginLogController } from './login-log/login-log.controller'
     LoginLogController,
   ],
   providers: [
+    PermissionService,
     UserService,
     DeptService,
     RoleService,
@@ -91,6 +95,6 @@ import { LoginLogController } from './login-log/login-log.controller'
     OperLogService,
     LoginLogService,
   ],
-  exports: [UserService, OperLogService, LoginLogService],
+  exports: [PermissionService, UserService, OperLogService, LoginLogService],
 })
 export class SystemModule {}

@@ -169,7 +169,7 @@ CREATE TABLE `sys_menu` (
   `path` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '路由地址',
   `component` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '组件路径',
   `query` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '路由参数',
-  `perms` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '权限标识',
+  `permission` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '权限标识',
   `icon` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '#' COMMENT '菜单图标',
   `is_visible` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '菜单状态（0显示 1隐藏）',
   `is_link` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '是否为外链（0否 1是）',

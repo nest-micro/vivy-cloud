@@ -2,6 +2,7 @@ import { Controller, Delete, Get, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { AjaxResult } from '@vivy-cloud/common-core'
 import { Log, OperType } from '@vivy-cloud/common-logger'
+import { RequirePermissions } from '@vivy-cloud/common-security'
 import { OperLogService } from './oper-log.service'
 import { ListOperLogDto } from './dto/oper-log.dto'
 
@@ -20,6 +21,7 @@ export class OperLogController {
    * @returns 操作日志列表
    */
   @Get('list')
+  @RequirePermissions(['system:operlog:query'])
   async list(@Query() operLog: ListOperLogDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.operLogService.list(operLog))
   }
@@ -29,6 +31,7 @@ export class OperLogController {
    */
   @Log('操作日志', OperType.CLEAN)
   @Delete('clear')
+  @RequirePermissions(['system:operlog:remove'])
   async clear(): Promise<AjaxResult> {
     return AjaxResult.success(await this.operLogService.clear())
   }
