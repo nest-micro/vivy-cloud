@@ -1,9 +1,9 @@
-import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common'
+import { Controller, Delete, Get, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { AjaxResult } from '@vivy-cloud/common-core'
 import { Log, OperType } from '@vivy-cloud/common-logger'
 import { OperLogService } from './oper-log.service'
-import { ListOperLogDto, CreateOperLogDto } from './dto/oper-log.dto'
+import { ListOperLogDto } from './dto/oper-log.dto'
 
 /**
  * 操作日志
@@ -22,16 +22,6 @@ export class OperLogController {
   @Get('list')
   async list(@Query() operLog: ListOperLogDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.operLogService.list(operLog))
-  }
-
-  /**
-   * 添加操作日志
-   * @param operLog 操作日志信息
-   */
-  @Log('操作日志', OperType.INSERT)
-  @Post('add')
-  async add(@Body() operLog: CreateOperLogDto): Promise<AjaxResult> {
-    return AjaxResult.success(await this.operLogService.add(operLog))
   }
 
   /**

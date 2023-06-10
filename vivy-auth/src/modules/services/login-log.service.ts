@@ -41,7 +41,7 @@ export class LoginLogService {
     const request = this.requestContextService.getRequest()
     loginLog.loginIp = IpUtils.requestIp(request)
     const region = IpUtils.ip2Region(IpUtils.requestIp(request))
-    loginLog.loginLocation = `${region.country} ${region.province} ${region.city} ${region.isp}`
+    loginLog.loginLocation = `${region.country} ${region.province} ${region.city}`
     loginLog.userAgent = request.headers['user-agent']
 
     this.rpcLogService.saveLoginLog(loginLog).catch(() => {

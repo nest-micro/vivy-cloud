@@ -1,97 +1,60 @@
-import { Allow } from 'class-validator'
+import { Allow, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator'
 import { LoginType, OperStatus } from '@vivy-cloud/common-logger'
-import { PartialType } from '@nestjs/mapped-types'
 import { PaginateDto } from '@vivy-cloud/common-core'
 
 /**
  * 列表
  */
-export class ListLoginLogDto extends PaginateDto {}
+export class ListLoginLogDto extends PaginateDto {
+  /** 用户账号 */
+  @Allow()
+  loginName: string = ''
+
+  /** 登录状态(enum OperStatus) */
+  @Allow()
+  loginStatus: OperStatus
+
+  /** 登录时间 */
+  @Allow()
+  createdTime: string[]
+}
 
 /**
  * 新增
  */
 export class CreateLoginLogDto {
-  // @Column({
-  //   name: 'login_name',
-  //   type: 'varchar',
-  //   length: 50,
-  //   default: '',
-  //   comment: '用户账号',
-  // })
-  @Allow()
+  /** 用户账号 */
+  @IsNotEmpty()
+  @MaxLength(50)
   loginName: string
 
-  // @Column({
-  //   name: 'login_type',
-  //   type: 'tinyint',
-  //   unsigned: true,
-  //   default: 0,
-  //   comment: '登录类型(enum LoginType)',
-  // })
-  @Allow()
+  /** 登录类型(enum LoginType) */
+  @IsOptional()
+  @IsInt()
   loginType: LoginType
 
-  // @Column({
-  //   name: 'login_status',
-  //   type: 'tinyint',
-  //   unsigned: true,
-  //   default: 0,
-  //   comment: '登录状态(enum OperStatus)',
-  // })
-  @Allow()
+  /** 登录状态(enum OperStatus) */
+  @IsOptional()
+  @IsInt()
   loginStatus: OperStatus
 
-  // @Column({
-  //   name: 'login_ip',
-  //   type: 'varchar',
-  //   length: 128,
-  //   default: '',
-  //   comment: '主机地址',
-  // })
-  @Allow()
+  /** 主机地址 */
+  @IsOptional()
+  @MaxLength(128)
   loginIp: string
 
-  // @Column({
-  //   name: 'login_location',
-  //   type: 'varchar',
-  //   length: 255,
-  //   default: '',
-  //   comment: '登录地点',
-  // })
-  @Allow()
+  /** 登录地点 */
+  @IsOptional()
+  @MaxLength(255)
   loginLocation: string
 
-  // @Column({
-  //   name: 'login_message',
-  //   type: 'varchar',
-  //   length: 255,
-  //   default: '',
-  //   comment: '登录信息',
-  // })
-  @Allow()
+  /** 登录信息 */
+  @IsOptional()
+  @MaxLength(255)
   loginMessage: string
 
-  // @Column({
-  //   name: 'user_agent',
-  //   type: 'varchar',
-  //   length: 500,
-  //   default: '',
-  //   comment: '用户代理',
-  // })
-  @Allow()
+  /** 用户代理 */
+  @IsOptional()
+  @MaxLength(500)
   userAgent: string
-}
-
-/**
- * 更新
- */
-export class UpdateLoginLogDto extends PartialType(CreateLoginLogDto) {
-  // @PrimaryGeneratedColumn({
-  //   name: 'login_id',
-  //   type: 'int',
-  //   comment: '登录ID',
-  // })
-  @Allow()
-  loginId: number
 }

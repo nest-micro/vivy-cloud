@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Repository } from 'typeorm'
+import { Between, Like, Repository } from 'typeorm'
 import { paginate, Pagination } from 'nestjs-typeorm-paginate'
 import { SysOperLog } from '@/entities/sys-oper-log.entity'
 import { ListOperLogDto, CreateOperLogDto } from './dto/oper-log.dto'
@@ -22,10 +22,26 @@ export class OperLogService {
    * @returns 操作日志列表
    */
   async list(operLog: ListOperLogDto): Promise<Pagination<SysOperLog>> {
-    return paginate<SysOperLog>(this.operLogRepository, {
-      page: operLog.page,
-      limit: operLog.limit,
-    })
+    return paginate<SysOperLog>(
+      this.operLogRepository,
+      {
+        page: operLog.page,
+        limit: operLog.limit,
+      },
+      {
+        order: {
+          createdTime: 'DESC',
+        },
+        where: {
+          title: Like(`%${operLog.title}%`),
+          operType: operLog.operType,
+          operName: Like(`%${operLog.operName}%`),
+          operStatus: operLog.operStatus,
+          requestUrl: Like(`%${operLog.requestUrl}%`),
+          createdTime: operLog.createdTime ? Between(operLog.createdTime[0], operLog.createdTime[1]) : undefined,
+        },
+      }
+    )
   }
 
   /**

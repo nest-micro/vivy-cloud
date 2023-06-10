@@ -70,6 +70,7 @@ export class AuthController {
   async getLoginUserInfo(@Req() req: Request): Promise<AjaxResult> {
     const token = this.tokenService.getToken(req)
     const loginUser = await this.tokenService.getLoginUser(token)
+    delete loginUser.sysUser.password
     return AjaxResult.success(loginUser)
   }
 }

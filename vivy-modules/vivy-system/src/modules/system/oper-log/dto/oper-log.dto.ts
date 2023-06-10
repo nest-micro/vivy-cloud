@@ -1,145 +1,97 @@
-import { Allow } from 'class-validator'
+import { Allow, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator'
 import { OperType, OperStatus } from '@vivy-cloud/common-logger'
-import { PartialType } from '@nestjs/mapped-types'
 import { PaginateDto } from '@vivy-cloud/common-core'
 
 /**
  * 列表
  */
-export class ListOperLogDto extends PaginateDto {}
+export class ListOperLogDto extends PaginateDto {
+  /** 模块标题 */
+  @Allow()
+  title: string = ''
+
+  /** 操作类型(enum OperType) */
+  @Allow()
+  operType: OperType
+
+  /** 操作人员 */
+  @Allow()
+  operName: string = ''
+
+  /** 操作状态(enum OperStatus) */
+  @Allow()
+  operStatus: OperStatus
+
+  /** 请求地址 */
+  @Allow()
+  requestUrl: string = ''
+
+  /** 操作时间 */
+  @Allow()
+  createdTime: string[]
+}
 
 /**
  * 新增
  */
 export class CreateOperLogDto {
-  // @Column({
-  //   name: 'title',
-  //   type: 'varchar',
-  //   length: 50,
-  //   default: '',
-  //   comment: '模块标题',
-  // })
-  @Allow()
+  /** 模块标题 */
+  @IsNotEmpty()
+  @MaxLength(50)
   title: string
 
-  // @Column({
-  //   name: 'oper_type',
-  //   type: 'tinyint',
-  //   default: 0,
-  //   comment: '操作类型(enum OperType)',
-  // })
-  @Allow()
+  /** 操作类型(enum OperType) */
+  @IsOptional()
+  @IsInt()
   operType: OperType
 
-  // @Column({
-  //   name: 'oper_name',
-  //   type: 'varchar',
-  //   length: 50,
-  //   default: '',
-  //   comment: '操作人员',
-  // })
-  @Allow()
+  /** 操作人员 */
+  @IsOptional()
+  @MaxLength(50)
   operName: string
 
-  // @Column({
-  //   name: 'oper_method',
-  //   type: 'varchar',
-  //   length: 100,
-  //   default: '',
-  //   comment: '方法名称',
-  // })
-  @Allow()
+  /** 方法名称 */
+  @IsOptional()
+  @MaxLength(100)
   operMethod: string
 
-  // @Column({
-  //   name: 'oper_ip',
-  //   type: 'varchar',
-  //   length: 128,
-  //   default: '',
-  //   comment: '主机地址',
-  // })
-  @Allow()
+  /** 主机地址 */
+  @IsOptional()
+  @MaxLength(128)
   operIp: string
 
-  // @Column({
-  //   name: 'oper_location',
-  //   type: 'varchar',
-  //   length: 255,
-  //   default: '',
-  //   comment: '操作地点',
-  // })
-  @Allow()
+  /** 操作地点 */
+  @IsOptional()
+  @MaxLength(255)
   operLocation: string
 
-  // @Column({
-  //   name: 'oper_status',
-  //   type: 'tinyint',
-  //   default: 0,
-  //   comment: '操作状态(enum OperStatus)',
-  // })
-  @Allow()
+  /** 操作状态(enum OperStatus) */
+  @IsOptional()
+  @IsInt()
   operStatus: OperStatus
 
-  // @Column({
-  //   name: 'request_url',
-  //   type: 'varchar',
-  //   length: 255,
-  //   default: '',
-  //   comment: '请求URL',
-  // })
-  @Allow()
+  /** 请求URL */
+  @IsOptional()
+  @MaxLength(255)
   requestUrl: string
 
-  // @Column({
-  //   name: 'request_method',
-  //   type: 'varchar',
-  //   length: 10,
-  //   default: '',
-  //   comment: '请求方式',
-  // })
-  @Allow()
+  /** 请求方式 */
+  @IsOptional()
+  @MaxLength(10)
   requestMethod: string
 
-  // @Column({
-  //   name: 'request_param',
-  //   type: 'varchar',
-  //   length: 2000,
-  //   default: '',
-  //   comment: '请求参数',
-  // })
-  @Allow()
+  /** 请求参数 */
+  @IsOptional()
+  @MaxLength(2000)
   requestParam: string
 
-  // @Column({
-  //   name: 'request_result',
-  //   type: 'varchar',
-  //   length: 2000,
-  //   default: '',
-  //   comment: '请求返回参数',
-  // })
-  @Allow()
+  /** 请求返回参数 */
+  @IsOptional()
+  @MaxLength(2000)
   requestResult: string
 
-  // @Column({
-  //   name: 'request_errmsg',
-  //   type: 'varchar',
-  //   length: 2000,
-  //   default: '',
-  //   comment: '请求错误消息',
-  // })
-  @Allow()
+  /** 请求错误消息 */
+  @IsOptional()
+  @MaxLength(2000)
   requestErrmsg: string
-}
-
-/**
- * 更新
- */
-export class UpdateOperLogDto extends PartialType(CreateOperLogDto) {
-  // @PrimaryGeneratedColumn({
-  //   name: 'oper_id',
-  //   type: 'bigint',
-  //   comment: '操作ID',
-  // })
-  @Allow()
-  operId: number
 }
