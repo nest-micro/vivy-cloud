@@ -34,7 +34,7 @@ export class SysMenu extends BaseBusinessEntity {
     length: 1,
     comment: '菜单类型（M目录 C菜单 F按钮）',
   })
-  menuType: number
+  menuType: string
 
   @Column({
     name: 'menu_sort',
@@ -93,44 +93,44 @@ export class SysMenu extends BaseBusinessEntity {
     name: 'icon',
     type: 'varchar',
     length: 100,
-    default: '#',
+    nullable: true,
     comment: '菜单图标',
   })
   icon: string
 
   @Column({
     name: 'is_visible',
-    type: 'tinyint',
-    unsigned: true,
-    default: 0,
-    comment: '菜单状态（0显示 1隐藏）',
+    type: 'char',
+    length: 1,
+    default: '0',
+    comment: '是否显示（0是 1否）',
   })
-  isVisible: number
+  isVisible: string
 
   @Column({
     name: 'is_link',
-    type: 'tinyint',
-    unsigned: true,
-    default: 0,
-    comment: '是否为外链（0否 1是）',
+    type: 'char',
+    length: 1,
+    default: '1',
+    comment: '是否为外链（0是 1否）',
   })
-  isLink: number
+  isLink: string
 
   @Column({
     name: 'is_frame',
-    type: 'tinyint',
-    unsigned: true,
-    default: 0,
-    comment: '是否为内嵌（0否 1是）',
+    type: 'char',
+    length: 1,
+    default: '1',
+    comment: '是否为内嵌（0是 1否）',
   })
-  isFrame: number
+  isFrame: string
 
   @Column({
     name: 'is_cache',
-    type: 'tinyint',
-    unsigned: true,
-    default: 0,
-    comment: '是否缓存（0否 1是）',
+    type: 'char',
+    length: 1,
+    default: '1',
+    comment: '是否缓存（0是 1否）',
   })
-  isCache: number
+  isCache: string
 }

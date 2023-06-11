@@ -1,165 +1,91 @@
-import { Allow } from 'class-validator'
-import { PartialType } from '@nestjs/mapped-types'
+import { IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator'
 
 /**
  * 新增
  */
 export class CreateMenuDto {
-  // @Column({
-  //   name: 'parent_id',
-  //   type: 'int',
-  //   comment: '父菜单ID',
-  // })
-  @Allow()
-  parentId: number
+  /** 父菜单ID */
+  @IsOptional()
+  @IsInt()
+  parentId: number = 0
 
-  // @Column({
-  //   name: 'menu_name',
-  //   type: 'varchar',
-  //   length: 50,
-  //   comment: '菜单名称',
-  // })
-  @Allow()
+  /** 菜单名称 */
+  @IsNotEmpty()
+  @MaxLength(50)
   menuName: string
 
-  // @Column({
-  //   name: 'menu_type',
-  //   type: 'char',
-  //   length: 1,
-  //   comment: '菜单类型（M目录 C菜单 F按钮）',
-  // })
-  @Allow()
-  menuType: number
+  /** 菜单类型（M目录 C菜单 F按钮） */
+  @IsNotEmpty()
+  @MaxLength(1)
+  menuType: string
 
-  // @Column({
-  //   name: 'menu_sort',
-  //   type: 'int',
-  //   default: 0,
-  //   comment: '显示顺序',
-  // })
-  @Allow()
+  /** 显示顺序 */
+  @IsOptional()
+  @IsInt()
   menuSort: number
 
-  // @Column({
-  //   name: 'status',
-  //   type: 'char',
-  //   length: 1,
-  //   default: '0',
-  //   comment: '菜单状态（0正常 1停用）',
-  // })
-  @Allow()
+  /** 菜单状态（0正常 1停用） */
+  @IsOptional()
+  @MaxLength(1)
   status: string
 
-  // @Column({
-  //   name: 'path',
-  //   type: 'varchar',
-  //   length: 255,
-  //   nullable: true,
-  //   comment: '路由地址',
-  // })
-  @Allow()
+  /** 路由地址 */
+  @IsOptional()
+  @MaxLength(255)
   path: string
 
-  // @Column({
-  //   name: 'component',
-  //   type: 'varchar',
-  //   length: 255,
-  //   nullable: true,
-  //   comment: '组件路径',
-  // })
-  @Allow()
+  /** 组件路径 */
+  @IsOptional()
+  @MaxLength(255)
   component: string
 
-  // @Column({
-  //   name: 'query',
-  //   type: 'varchar',
-  //   length: 255,
-  //   nullable: true,
-  //   comment: '路由参数',
-  // })
-  @Allow()
+  /** 路由参数 */
+  @IsOptional()
+  @MaxLength(255)
   query: string
 
-  // @Column({
-  //   name: 'perms',
-  //   type: 'varchar',
-  //   length: 100,
-  //   nullable: true,
-  //   comment: '权限标识',
-  // })
-  @Allow()
+  /** 权限标识 */
+  @IsOptional()
+  @MaxLength(100)
   permission: string
 
-  // @Column({
-  //   name: 'icon',
-  //   type: 'varchar',
-  //   length: 100,
-  //   default: '#',
-  //   comment: '菜单图标',
-  // })
-  @Allow()
+  /** 菜单图标 */
+  @IsOptional()
+  @MaxLength(100)
   icon: string
 
-  // @Column({
-  //   name: 'is_visible',
-  //   type: 'tinyint',
-  //   unsigned: true,
-  //   default: 0,
-  //   comment: '菜单状态（0显示 1隐藏）',
-  // })
-  @Allow()
-  isVisible: number
+  /** 是否显示（0是 1否） */
+  @IsOptional()
+  @MaxLength(1)
+  isVisible: string
 
-  // @Column({
-  //   name: 'is_link',
-  //   type: 'tinyint',
-  //   unsigned: true,
-  //   default: 0,
-  //   comment: '是否为外链（0否 1是）',
-  // })
-  @Allow()
-  isLink: number
+  /** 是否为外链（0是 1否） */
+  @IsOptional()
+  @MaxLength(1)
+  isLink: string
 
-  // @Column({
-  //   name: 'is_frame',
-  //   type: 'tinyint',
-  //   unsigned: true,
-  //   default: 0,
-  //   comment: '是否为内嵌（0否 1是）',
-  // })
-  @Allow()
-  isFrame: number
+  /** 是否为内嵌（0是 1否） */
+  @IsOptional()
+  @MaxLength(1)
+  isFrame: string
 
-  // @Column({
-  //   name: 'is_cache',
-  //   type: 'tinyint',
-  //   unsigned: true,
-  //   default: 0,
-  //   comment: '是否缓存（0否 1是）',
-  // })
-  @Allow()
-  isCache: number
+  /** 是否缓存（0是 1否） */
+  @IsOptional()
+  @MaxLength(1)
+  isCache: string
 
-  // @Column({
-  //   name: 'remark',
-  //   type: 'varchar',
-  //   length: 500,
-  //   nullable: true,
-  //   comment: '备注',
-  // })
-  @Allow()
+  /** 备注 */
+  @IsOptional()
+  @MaxLength(500)
   remark: string
 }
 
 /**
  * 更新
  */
-export class UpdateMenuDto extends PartialType(CreateMenuDto) {
-  // @PrimaryGeneratedColumn({
-  //   name: 'menu_id',
-  //   type: 'int',
-  //   comment: '菜单ID',
-  // })
-  @Allow()
+export class UpdateMenuDto extends CreateMenuDto {
+  /** 菜单ID */
+  @IsNotEmpty()
+  @IsInt()
   menuId: number
 }

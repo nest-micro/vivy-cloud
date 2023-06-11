@@ -52,7 +52,7 @@ export class DeptController {
    * 删除部门
    * @param deptId 部门ID
    */
-  @Log('角色管理', OperType.DELETE)
+  @Log('部门管理', OperType.DELETE)
   @Delete('delete/:deptId')
   async delete(@Param('deptId') deptId: number): Promise<AjaxResult> {
     if (await this.deptService.checkDeptExistChild(deptId)) {

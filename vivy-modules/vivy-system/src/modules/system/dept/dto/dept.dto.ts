@@ -1,5 +1,4 @@
 import { IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator'
-import { PartialType } from '@nestjs/mapped-types'
 
 /**
  * 新增
@@ -34,7 +33,7 @@ export class CreateDeptDto {
 /**
  * 更新
  */
-export class UpdateDeptDto extends PartialType(CreateDeptDto) {
+export class UpdateDeptDto extends CreateDeptDto {
   /** 部门ID */
   @IsNotEmpty()
   @IsInt()
