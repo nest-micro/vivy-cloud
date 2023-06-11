@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common'
+import { Body, Controller, Delete, Get, Param, ParseArrayPipe, Post, Put, Query } from '@nestjs/common'
 import { ApiTags } from '@nestjs/swagger'
 import { AjaxResult } from '@vivy-cloud/common-core'
 import { Log, OperType } from '@vivy-cloud/common-logger'
@@ -32,6 +32,14 @@ export class DictDataController {
   @Log('字典数据管理', OperType.INSERT)
   @Post('add')
   async add(@Body() dictData: CreateDictDataDto): Promise<AjaxResult> {
+    if (!(await this.dictDataService.checkDictLabelUnique(dictData))) {
+      return AjaxResult.error(`新增字典${dictData.dictLabel}失败，字典标签已存在`)
+    }
+
+    if (!(await this.dictDataService.checkDictValueUnique(dictData))) {
+      return AjaxResult.error(`新增字典${dictData.dictLabel}失败，字典键值已存在`)
+    }
+
     return AjaxResult.success(await this.dictDataService.add(dictData))
   }
 
@@ -42,7 +50,35 @@ export class DictDataController {
   @Log('字典数据管理', OperType.UPDATE)
   @Put('update')
   async update(@Body() dictData: UpdateDictDataDto): Promise<AjaxResult> {
+    if (!(await this.dictDataService.checkDictLabelUnique(dictData))) {
+      return AjaxResult.error(`修改字典${dictData.dictLabel}失败，字典标签已存在`)
+    }
+
+    if (!(await this.dictDataService.checkDictValueUnique(dictData))) {
+      return AjaxResult.error(`修改字典${dictData.dictLabel}失败，字典键值已存在`)
+    }
+
     return AjaxResult.success(await this.dictDataService.update(dictData))
+  }
+
+  /**
+   * 删除字典数据
+   * @param dictIds 字典数据ID
+   */
+  @Log('字典数据管理', OperType.DELETE)
+  @Delete('delete/:dictIds')
+  async delete(@Param('dictIds', ParseArrayPipe) dictIds: number[]): Promise<AjaxResult> {
+    return AjaxResult.success(await this.dictDataService.delete(dictIds))
+  }
+
+  /**
+   * 字典数据详情
+   * @param dictId 字典数据ID
+   * @returns 字典数据详情
+   */
+  @Get('info/:dictId')
+  async info(@Param('dictId') dictId: number): Promise<AjaxResult> {
+    return AjaxResult.success(await this.dictDataService.info(dictId))
   }
 
   /**
@@ -51,7 +87,7 @@ export class DictDataController {
    * @returns 字典数据选项列表
    */
   @Get('options/:dictType')
-  async optionsByType(@Param('dictType') dictType: string): Promise<AjaxResult> {
-    return AjaxResult.success(await this.dictDataService.optionsByType(dictType))
+  async optionsByDictType(@Param('dictType') dictType: string): Promise<AjaxResult> {
+    return AjaxResult.success(await this.dictDataService.optionsByDictType(dictType))
   }
 }

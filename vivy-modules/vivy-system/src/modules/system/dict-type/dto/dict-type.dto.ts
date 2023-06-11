@@ -1,73 +1,59 @@
-import { Allow } from 'class-validator'
-import { PartialType } from '@nestjs/mapped-types'
+import { Allow, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator'
 import { PaginateDto } from '@vivy-cloud/common-core'
 
 /**
  * 列表
  */
-export class ListDictTypeDto extends PaginateDto {}
+export class ListDictTypeDto extends PaginateDto {
+  /** 字典名称 */
+  @Allow()
+  dictName: string = ''
+
+  /** 字典类型 */
+  @Allow()
+  dictType: string = ''
+
+  /** 字典状态（0正常 1停用） */
+  @Allow()
+  status: string
+}
 
 /**
  * 新增
  */
 export class CreateDictTypeDto {
-  // @Column({
-  //   name: 'dict_name',
-  //   type: 'varchar',
-  //   length: 100,
-  //   comment: '字典名称',
-  // })
-  @Allow()
+  /** 字典名称 */
+  @IsNotEmpty()
+  @MaxLength(50)
   dictName: string
 
-  // @Column({
-  //   name: 'dict_type',
-  //   type: 'varchar',
-  //   length: 100,
-  //   comment: '字典类型',
-  // })
-  @Allow()
+  /** 字典类型 */
+  @IsNotEmpty()
+  @MaxLength(100)
   dictType: string
 
-  // @Column({
-  //   name: 'dict_sort',
-  //   type: 'int',
-  //   default: 0,
-  //   comment: '显示顺序',
-  // })
-  @Allow()
+  /** 显示顺序 */
+  @IsOptional()
+  @IsInt()
   dictSort: number
 
-  // @Column({
-  //   name: 'status',
-  //   type: 'char',
-  //   length: 1,
-  //   default: '0',
-  //   comment: '字典状态（0正常 1停用）',
-  // })
-  @Allow()
+  /** 字典状态（0正常 1停用） */
+  @IsOptional()
+  @MaxLength(1)
   status: string
 
-  // @Column({
-  //   name: 'remark',
-  //   type: 'varchar',
-  //   length: 500,
-  //   nullable: true,
-  //   comment: '备注',
-  // })
-  @Allow()
+  /** 备注 */
+  @IsOptional()
+  @MaxLength(500)
   remark: string
 }
 
 /**
  * 更新
  */
-export class UpdateDictTypeDto extends PartialType(CreateDictTypeDto) {
-  // @PrimaryGeneratedColumn({
-  //   name: 'dict_id',
-  //   type: 'int',
-  //   comment: '字典ID',
-  // })
-  @Allow()
+export class UpdateDictTypeDto extends CreateDictTypeDto {
+  /** 字典ID */
+  @IsNotEmpty()
+  @IsInt()
   dictId: number
 }

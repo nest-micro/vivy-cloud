@@ -1,111 +1,74 @@
-import { Allow } from 'class-validator'
-import { PartialType } from '@nestjs/mapped-types'
+import { Allow, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator'
 import { PaginateDto } from '@vivy-cloud/common-core'
 
 /**
  * 列表
  */
 export class ListDictDataDto extends PaginateDto {
-  // @Column({
-  //   name: 'dict_type',
-  //   type: 'varchar',
-  //   length: 100,
-  //   comment: '字典类型',
-  // })
+  /** 字典类型 */
   @Allow()
   dictType: string
+
+  /** 字典标签 */
+  @Allow()
+  dictLabel: string = ''
+
+  /** 字典状态（0正常 1停用） */
+  @Allow()
+  status: string
 }
 
 /**
  * 新增
  */
 export class CreateDictDataDto {
-  // @Column({
-  //   name: 'dict_type',
-  //   type: 'varchar',
-  //   length: 100,
-  //   comment: '字典类型',
-  // })
-  @Allow()
+  /** 字典类型 */
+  @IsNotEmpty()
+  @MaxLength(100)
   dictType: string
 
-  // @Column({
-  //   name: 'dict_label',
-  //   type: 'varchar',
-  //   length: 100,
-  //   comment: '字典标签',
-  // })
-  @Allow()
+  /** 字典标签 */
+  @IsNotEmpty()
+  @MaxLength(100)
   dictLabel: string
 
-  // @Column({
-  //   name: 'dict_value',
-  //   type: 'varchar',
-  //   length: 100,
-  //   comment: '字典键值',
-  // })
-  @Allow()
+  /** 字典键值 */
+  @IsNotEmpty()
+  @MaxLength(100)
   dictValue: string
 
-  // @Column({
-  //   name: 'dict_sort',
-  //   type: 'int',
-  //   default: 0,
-  //   comment: '显示顺序',
-  // })
-  @Allow()
+  /** 显示顺序 */
+  @IsOptional()
+  @IsInt()
   dictSort: number
 
-  // @Column({
-  //   name: 'status',
-  //   type: 'char',
-  //   length: 1,
-  //   default: '0',
-  //   comment: '字典状态（0正常 1停用）',
-  // })
-  @Allow()
+  /** 字典状态（0正常 1停用） */
+  @IsOptional()
+  @MaxLength(1)
   status: string
 
-  // @Column({
-  //   name: 'css_class',
-  //   type: 'varchar',
-  //   length: 100,
-  //   nullable: true,
-  //   comment: '样式属性（其他样式扩展）',
-  // })
-  @Allow()
+  /** 样式属性（其他样式扩展） */
+  @IsOptional()
+  @MaxLength(100)
   cssClass: string
 
-  // @Column({
-  //   name: 'list_class',
-  //   type: 'varchar',
-  //   length: 100,
-  //   nullable: true,
-  //   comment: '表格回显样式',
-  // })
-  @Allow()
+  /** 表格回显样式 */
+  @IsOptional()
+  @MaxLength(100)
   listClass: string
 
-  // @Column({
-  //   name: 'remark',
-  //   type: 'varchar',
-  //   length: 500,
-  //   nullable: true,
-  //   comment: '备注',
-  // })
-  @Allow()
+  /** 备注 */
+  @IsOptional()
+  @MaxLength(500)
   remark: string
 }
 
 /**
  * 更新
  */
-export class UpdateDictDataDto extends PartialType(CreateDictDataDto) {
-  // @PrimaryGeneratedColumn({
-  //   name: 'dict_id',
-  //   type: 'int',
-  //   comment: '字典ID',
-  // })
-  @Allow()
+export class UpdateDictDataDto extends CreateDictDataDto {
+  /** 字典ID */
+  @IsNotEmpty()
+  @IsInt()
   dictId: number
 }
