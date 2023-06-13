@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { AjaxResult } from '@vivy-cloud/common-core'
 import { Log, OperType } from '@vivy-cloud/common-logger'
+import { RequirePermissions } from '@vivy-cloud/common-security'
 import { DeptService } from './dept.service'
 import { CreateDeptDto, UpdateDeptDto } from './dto/dept.dto'
 
@@ -10,6 +11,7 @@ import { CreateDeptDto, UpdateDeptDto } from './dto/dept.dto'
  * @author vivy
  */
 @ApiTags('部门管理')
+@ApiBearerAuth()
 @Controller('dept')
 export class DeptController {
   constructor(private deptService: DeptService) {}
@@ -20,6 +22,7 @@ export class DeptController {
    * @date 2023-05-02 21:24:50
    */
   @Get('tree')
+  @RequirePermissions('system:dept:query')
   async tree(): Promise<AjaxResult> {
     return AjaxResult.success(await this.deptService.tree())
   }
@@ -28,8 +31,9 @@ export class DeptController {
    * 添加部门
    * @param dept 部门信息
    */
-  @Log('部门管理', OperType.INSERT)
   @Post('add')
+  @Log('部门管理', OperType.INSERT)
+  @RequirePermissions('system:dept:add')
   async add(@Body() dept: CreateDeptDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.deptService.add(dept))
   }
@@ -38,8 +42,9 @@ export class DeptController {
    * 更新部门
    * @param dept 部门信息
    */
-  @Log('部门管理', OperType.UPDATE)
   @Put('update')
+  @Log('部门管理', OperType.UPDATE)
+  @RequirePermissions('system:dept:update')
   async update(@Body() dept: UpdateDeptDto): Promise<AjaxResult> {
     if (dept.deptId === dept.parentId) {
       return AjaxResult.error(`修改部门${dept.deptName}失败，上级部门不能是自己`)
@@ -52,8 +57,9 @@ export class DeptController {
    * 删除部门
    * @param deptId 部门ID
    */
-  @Log('部门管理', OperType.DELETE)
   @Delete('delete/:deptId')
+  @Log('部门管理', OperType.DELETE)
+  @RequirePermissions('system:dept:delete')
   async delete(@Param('deptId') deptId: number): Promise<AjaxResult> {
     if (await this.deptService.checkDeptExistChild(deptId)) {
       return AjaxResult.error('存在下级部门,不允许删除')
@@ -72,6 +78,7 @@ export class DeptController {
    * @returns 部门详情
    */
   @Get('info/:deptId')
+  @RequirePermissions('system:dept:query')
   async info(@Param('deptId') deptId: number): Promise<AjaxResult> {
     return AjaxResult.success(await this.deptService.info(deptId))
   }

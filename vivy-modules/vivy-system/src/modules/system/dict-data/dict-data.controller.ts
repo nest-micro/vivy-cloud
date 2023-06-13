@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, Param, ParseArrayPipe, Post, Put, Query } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { AjaxResult } from '@vivy-cloud/common-core'
 import { Log, OperType } from '@vivy-cloud/common-logger'
+import { RequirePermissions } from '@vivy-cloud/common-security'
 import { DictDataService } from './dict-data.service'
 import { ListDictDataDto, CreateDictDataDto, UpdateDictDataDto } from './dto/dict-data.dto'
 
@@ -10,6 +11,7 @@ import { ListDictDataDto, CreateDictDataDto, UpdateDictDataDto } from './dto/dic
  * @author vivy
  */
 @ApiTags('字典数据管理')
+@ApiBearerAuth()
 @Controller('dict/data')
 export class DictDataController {
   constructor(private dictDataService: DictDataService) {}
@@ -21,6 +23,7 @@ export class DictDataController {
    * @returns 字典数据列表
    */
   @Get('list')
+  @RequirePermissions('system:dict:query')
   async list(@Query() dictData: ListDictDataDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.dictDataService.list(dictData))
   }
@@ -29,8 +32,9 @@ export class DictDataController {
    * 添加字典数据
    * @param dictData 字典数据信息
    */
-  @Log('字典数据管理', OperType.INSERT)
   @Post('add')
+  @Log('字典数据管理', OperType.INSERT)
+  @RequirePermissions('system:dict:add')
   async add(@Body() dictData: CreateDictDataDto): Promise<AjaxResult> {
     if (!(await this.dictDataService.checkDictLabelUnique(dictData))) {
       return AjaxResult.error(`新增字典${dictData.dictLabel}失败，字典标签已存在`)
@@ -47,8 +51,9 @@ export class DictDataController {
    * 更新字典数据
    * @param dictData 字典数据信息
    */
-  @Log('字典数据管理', OperType.UPDATE)
   @Put('update')
+  @Log('字典数据管理', OperType.UPDATE)
+  @RequirePermissions('system:dict:update')
   async update(@Body() dictData: UpdateDictDataDto): Promise<AjaxResult> {
     if (!(await this.dictDataService.checkDictLabelUnique(dictData))) {
       return AjaxResult.error(`修改字典${dictData.dictLabel}失败，字典标签已存在`)
@@ -65,8 +70,9 @@ export class DictDataController {
    * 删除字典数据
    * @param dictIds 字典数据ID
    */
-  @Log('字典数据管理', OperType.DELETE)
   @Delete('delete/:dictIds')
+  @Log('字典数据管理', OperType.DELETE)
+  @RequirePermissions('system:dict:delete')
   async delete(@Param('dictIds', ParseArrayPipe) dictIds: number[]): Promise<AjaxResult> {
     return AjaxResult.success(await this.dictDataService.delete(dictIds))
   }
@@ -77,6 +83,7 @@ export class DictDataController {
    * @returns 字典数据详情
    */
   @Get('info/:dictId')
+  @RequirePermissions('system:dict:query')
   async info(@Param('dictId') dictId: number): Promise<AjaxResult> {
     return AjaxResult.success(await this.dictDataService.info(dictId))
   }

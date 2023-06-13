@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, Param, ParseArrayPipe, Post, Put, Query } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { AjaxResult } from '@vivy-cloud/common-core'
 import { Log, OperType } from '@vivy-cloud/common-logger'
+import { RequirePermissions } from '@vivy-cloud/common-security'
 import { DictTypeService } from './dict-type.service'
 import { ListDictTypeDto, CreateDictTypeDto, UpdateDictTypeDto } from './dto/dict-type.dto'
 
@@ -10,6 +11,7 @@ import { ListDictTypeDto, CreateDictTypeDto, UpdateDictTypeDto } from './dto/dic
  * @author vivy
  */
 @ApiTags('字典类型管理')
+@ApiBearerAuth()
 @Controller('dict/type')
 export class DictTypeController {
   constructor(private dictTypeService: DictTypeService) {}
@@ -20,6 +22,7 @@ export class DictTypeController {
    * @returns 字典类型列表
    */
   @Get('list')
+  @RequirePermissions('system:dict:query')
   async list(@Query() dictType: ListDictTypeDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.dictTypeService.list(dictType))
   }
@@ -28,8 +31,9 @@ export class DictTypeController {
    * 添加字典类型
    * @param dictType 字典类型信息
    */
-  @Log('字典类型管理', OperType.INSERT)
   @Post('add')
+  @Log('字典类型管理', OperType.INSERT)
+  @RequirePermissions('system:dict:add')
   async add(@Body() dictType: CreateDictTypeDto): Promise<AjaxResult> {
     if (!(await this.dictTypeService.checkDictTypeUnique(dictType))) {
       return AjaxResult.error(`新增字典${dictType.dictName}失败，字典类型已存在`)
@@ -46,8 +50,9 @@ export class DictTypeController {
    * 更新字典类型
    * @param dictType 字典类型信息
    */
-  @Log('字典类型管理', OperType.UPDATE)
   @Put('update')
+  @Log('字典类型管理', OperType.UPDATE)
+  @RequirePermissions('system:dict:update')
   async update(@Body() dictType: UpdateDictTypeDto): Promise<AjaxResult> {
     if (!(await this.dictTypeService.checkDictTypeUnique(dictType))) {
       return AjaxResult.error(`修改字典${dictType.dictName}失败，字典类型已存在`)
@@ -64,8 +69,9 @@ export class DictTypeController {
    * 删除字典类型
    * @param dictIds 字典类型ID
    */
-  @Log('字典类型管理', OperType.DELETE)
   @Delete('delete/:dictIds')
+  @Log('字典类型管理', OperType.DELETE)
+  @RequirePermissions('system:dict:delete')
   async delete(@Param('dictIds', ParseArrayPipe) dictIds: number[]): Promise<AjaxResult> {
     return AjaxResult.success(await this.dictTypeService.delete(dictIds))
   }
@@ -76,6 +82,7 @@ export class DictTypeController {
    * @returns 字典类型详情
    */
   @Get('info/:dictId')
+  @RequirePermissions('system:dict:query')
   async info(@Param('dictId') dictId: number): Promise<AjaxResult> {
     return AjaxResult.success(await this.dictTypeService.info(dictId))
   }

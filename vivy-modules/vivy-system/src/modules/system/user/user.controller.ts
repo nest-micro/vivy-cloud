@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, Param, ParseArrayPipe, Post, Put, Query } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { AjaxResult } from '@vivy-cloud/common-core'
 import { Log, OperType } from '@vivy-cloud/common-logger'
+import { RequirePermissions } from '@vivy-cloud/common-security'
 import { UserService } from './user.service'
 import { ListUserDto, CreateUserDto, UpdateUserDto } from './dto/user.dto'
 
@@ -10,6 +11,7 @@ import { ListUserDto, CreateUserDto, UpdateUserDto } from './dto/user.dto'
  * @author vivy
  */
 @ApiTags('用户管理')
+@ApiBearerAuth()
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
@@ -20,6 +22,7 @@ export class UserController {
    * @returns 用户列表
    */
   @Get('list')
+  @RequirePermissions('system:user:query')
   async list(@Query() user: ListUserDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.userService.list(user))
   }
@@ -28,8 +31,9 @@ export class UserController {
    * 添加用户
    * @param user 用户信息
    */
-  @Log('用户管理', OperType.INSERT)
   @Post('add')
+  @Log('用户管理', OperType.INSERT)
+  @RequirePermissions('system:user:add')
   async add(@Body() user: CreateUserDto): Promise<AjaxResult> {
     if (!(await this.userService.checkUserNameUnique(user))) {
       return AjaxResult.error(`新增用户${user.userName}失败，登录账号已存在`)
@@ -42,8 +46,9 @@ export class UserController {
    * 更新用户
    * @param user 用户信息
    */
-  @Log('用户管理', OperType.UPDATE)
   @Put('update')
+  @Log('用户管理', OperType.UPDATE)
+  @RequirePermissions('system:user:update')
   async update(@Body() user: UpdateUserDto): Promise<AjaxResult> {
     this.userService.checkUserAllowed(user)
 
@@ -58,8 +63,9 @@ export class UserController {
    * 删除用户
    * @param userIds 用户ID
    */
-  @Log('用户管理', OperType.DELETE)
   @Delete('delete/:userIds')
+  @Log('用户管理', OperType.DELETE)
+  @RequirePermissions('system:user:delete')
   async delete(@Param('userIds', new ParseArrayPipe({ items: Number })) userIds: number[]): Promise<AjaxResult> {
     this.userService.checkUserAllowed(userIds)
     return AjaxResult.success(await this.userService.delete(userIds))
@@ -71,6 +77,7 @@ export class UserController {
    * @returns 用户详情
    */
   @Get('info/:userId')
+  @RequirePermissions('system:user:query')
   async info(@Param('userId') userId: number): Promise<AjaxResult> {
     return AjaxResult.success(await this.userService.info(userId))
   }

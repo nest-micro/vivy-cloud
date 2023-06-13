@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, Param, ParseArrayPipe, Post, Put, Query } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { AjaxResult } from '@vivy-cloud/common-core'
 import { Log, OperType } from '@vivy-cloud/common-logger'
+import { RequirePermissions } from '@vivy-cloud/common-security'
 import { PostService } from './post.service'
 import { ListPostDto, CreatePostDto, UpdatePostDto } from './dto/post.dto'
 
@@ -10,6 +11,7 @@ import { ListPostDto, CreatePostDto, UpdatePostDto } from './dto/post.dto'
  * @author vivy
  */
 @ApiTags('岗位管理')
+@ApiBearerAuth()
 @Controller('post')
 export class PostController {
   constructor(private postService: PostService) {}
@@ -20,6 +22,7 @@ export class PostController {
    * @returns 岗位列表
    */
   @Get('list')
+  @RequirePermissions('system:post:query')
   async list(@Query() post: ListPostDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.postService.list(post))
   }
@@ -28,8 +31,9 @@ export class PostController {
    * 添加岗位
    * @param post 岗位信息
    */
-  @Log('岗位管理', OperType.INSERT)
   @Post('add')
+  @Log('岗位管理', OperType.INSERT)
+  @RequirePermissions('system:post:add')
   async add(@Body() post: CreatePostDto): Promise<AjaxResult> {
     if (!(await this.postService.checkPostNameUnique(post))) {
       return AjaxResult.error(`新增岗位${post.postName}失败，岗位名称已存在`)
@@ -46,8 +50,9 @@ export class PostController {
    * 更新岗位
    * @param post 岗位信息
    */
-  @Log('岗位管理', OperType.UPDATE)
   @Put('update')
+  @Log('岗位管理', OperType.UPDATE)
+  @RequirePermissions('system:post:update')
   async update(@Body() post: UpdatePostDto): Promise<AjaxResult> {
     if (!(await this.postService.checkPostNameUnique(post))) {
       return AjaxResult.error(`修改岗位${post.postName}失败，岗位名称已存在`)
@@ -64,8 +69,9 @@ export class PostController {
    * 删除岗位
    * @param postIds 岗位ID
    */
-  @Log('岗位管理', OperType.DELETE)
   @Delete('delete/:postIds')
+  @Log('岗位管理', OperType.DELETE)
+  @RequirePermissions('system:post:delete')
   async delete(@Param('postIds', ParseArrayPipe) postIds: number[]): Promise<AjaxResult> {
     return AjaxResult.success(await this.postService.delete(postIds))
   }
@@ -76,6 +82,7 @@ export class PostController {
    * @returns 岗位详情
    */
   @Get('info/:postId')
+  @RequirePermissions('system:post:query')
   async info(@Param('postId') postId: number): Promise<AjaxResult> {
     return AjaxResult.success(await this.postService.info(postId))
   }

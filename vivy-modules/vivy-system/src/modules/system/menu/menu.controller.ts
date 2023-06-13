@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { AjaxResult } from '@vivy-cloud/common-core'
 import { Log, OperType } from '@vivy-cloud/common-logger'
+import { RequirePermissions } from '@vivy-cloud/common-security'
 import { MenuService } from './menu.service'
 import { CreateMenuDto, UpdateMenuDto } from './dto/menu.dto'
 
@@ -10,6 +11,7 @@ import { CreateMenuDto, UpdateMenuDto } from './dto/menu.dto'
  * @author vivy
  */
 @ApiTags('菜单管理')
+@ApiBearerAuth()
 @Controller('menu')
 export class MenuController {
   constructor(private menuService: MenuService) {}
@@ -18,6 +20,7 @@ export class MenuController {
    * 查询菜单树结构
    */
   @Get('tree')
+  @RequirePermissions('system:menu:query')
   async tree(): Promise<AjaxResult> {
     return AjaxResult.success(await this.menuService.tree())
   }
@@ -26,8 +29,9 @@ export class MenuController {
    * 添加菜单
    * @param menu 菜单信息
    */
-  @Log('菜单管理', OperType.INSERT)
   @Post('add')
+  @Log('菜单管理', OperType.INSERT)
+  @RequirePermissions('system:menu:add')
   async add(@Body() menu: CreateMenuDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.menuService.add(menu))
   }
@@ -36,8 +40,9 @@ export class MenuController {
    * 更新菜单
    * @param menu 菜单信息
    */
-  @Log('菜单管理', OperType.UPDATE)
   @Put('update')
+  @Log('菜单管理', OperType.UPDATE)
+  @RequirePermissions('system:menu:update')
   async update(@Body() menu: UpdateMenuDto): Promise<AjaxResult> {
     if (menu.menuId === menu.parentId) {
       return AjaxResult.error(`修改菜单${menu.menuName}失败，上级菜单不能是自己`)
@@ -50,8 +55,9 @@ export class MenuController {
    * 删除菜单
    * @param menuId 菜单ID
    */
-  @Log('菜单管理', OperType.DELETE)
   @Delete('delete/:menuId')
+  @Log('菜单管理', OperType.DELETE)
+  @RequirePermissions('system:menu:delete')
   async delete(@Param('menuId') menuId: number): Promise<AjaxResult> {
     if (await this.menuService.checkMenuExistChild(menuId)) {
       return AjaxResult.error('存在下级菜单,不允许删除')
@@ -70,6 +76,7 @@ export class MenuController {
    * @returns 菜单详情
    */
   @Get('info/:menuId')
+  @RequirePermissions('system:menu:query')
   async info(@Param('menuId') menuId: number): Promise<AjaxResult> {
     return AjaxResult.success(await this.menuService.info(menuId))
   }

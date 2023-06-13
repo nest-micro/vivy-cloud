@@ -1,5 +1,5 @@
 import { Controller, Delete, Get, Query } from '@nestjs/common'
-import { ApiTags } from '@nestjs/swagger'
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { AjaxResult } from '@vivy-cloud/common-core'
 import { Log, OperType } from '@vivy-cloud/common-logger'
 import { RequirePermissions } from '@vivy-cloud/common-security'
@@ -11,6 +11,7 @@ import { ListLoginLogDto } from './dto/login-log.dto'
  * @author vivy
  */
 @ApiTags('登录日志')
+@ApiBearerAuth()
 @Controller('login/log')
 export class LoginLogController {
   constructor(private loginLogService: LoginLogService) {}
@@ -21,7 +22,7 @@ export class LoginLogController {
    * @returns 登录日志列表
    */
   @Get('list')
-  @RequirePermissions(['system:loginlog:query'])
+  @RequirePermissions('system:loginlog:query')
   async list(@Query() loginLog: ListLoginLogDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.loginLogService.list(loginLog))
   }
@@ -29,9 +30,9 @@ export class LoginLogController {
   /**
    * 清空登录日志
    */
-  @Log('登录日志', OperType.CLEAN)
   @Delete('clear')
-  @RequirePermissions(['system:loginlog:remove'])
+  @Log('登录日志', OperType.CLEAN)
+  @RequirePermissions('system:loginlog:delete')
   async clear(): Promise<AjaxResult> {
     return AjaxResult.success(await this.loginLogService.clear())
   }
