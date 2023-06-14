@@ -23,8 +23,6 @@ export class DeptService {
 
   /**
    * 查询部门树结构
-   * @author vivy
-   * @date 2023-05-02 21:24:50
    */
   async tree(): Promise<DeptTreeVo[]> {
     const list = await this.deptRepository.find({

@@ -33,7 +33,7 @@ export class DictDataController {
    * @param dictData 字典数据信息
    */
   @Post('add')
-  @Log('字典数据管理', OperType.INSERT)
+  @Log({ title: '字典数据管理', operType: OperType.INSERT })
   @RequirePermissions('system:dict:add')
   async add(@Body() dictData: CreateDictDataDto): Promise<AjaxResult> {
     if (!(await this.dictDataService.checkDictLabelUnique(dictData))) {
@@ -52,7 +52,7 @@ export class DictDataController {
    * @param dictData 字典数据信息
    */
   @Put('update')
-  @Log('字典数据管理', OperType.UPDATE)
+  @Log({ title: '字典数据管理', operType: OperType.UPDATE })
   @RequirePermissions('system:dict:update')
   async update(@Body() dictData: UpdateDictDataDto): Promise<AjaxResult> {
     if (!(await this.dictDataService.checkDictLabelUnique(dictData))) {
@@ -71,7 +71,7 @@ export class DictDataController {
    * @param dictIds 字典数据ID
    */
   @Delete('delete/:dictIds')
-  @Log('字典数据管理', OperType.DELETE)
+  @Log({ title: '字典数据管理', operType: OperType.DELETE })
   @RequirePermissions('system:dict:delete')
   async delete(@Param('dictIds', ParseArrayPipe) dictIds: number[]): Promise<AjaxResult> {
     return AjaxResult.success(await this.dictDataService.delete(dictIds))

@@ -32,7 +32,7 @@ export class RoleController {
    * @param role 角色信息
    */
   @Post('add')
-  @Log('角色管理', OperType.INSERT)
+  @Log({ title: '角色管理', operType: OperType.INSERT })
   @RequirePermissions('system:role:add')
   async add(@Body() role: CreateRoleDto): Promise<AjaxResult> {
     if (!(await this.roleService.checkRoleNameUnique(role))) {
@@ -51,7 +51,7 @@ export class RoleController {
    * @param role 角色信息
    */
   @Put('update')
-  @Log('角色管理', OperType.UPDATE)
+  @Log({ title: '角色管理', operType: OperType.UPDATE })
   @RequirePermissions('system:role:update')
   async update(@Body() role: UpdateRoleDto): Promise<AjaxResult> {
     this.roleService.checkRoleAllowed(role)
@@ -72,7 +72,7 @@ export class RoleController {
    * @param roleIds 角色ID
    */
   @Delete('delete/:roleIds')
-  @Log('角色管理', OperType.DELETE)
+  @Log({ title: '角色管理', operType: OperType.DELETE })
   @RequirePermissions('system:role:delete')
   async delete(@Param('roleIds', new ParseArrayPipe({ items: Number })) roleIds: number[]): Promise<AjaxResult> {
     this.roleService.checkRoleAllowed(roleIds)

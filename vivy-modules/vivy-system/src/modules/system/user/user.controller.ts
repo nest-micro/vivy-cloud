@@ -32,7 +32,7 @@ export class UserController {
    * @param user 用户信息
    */
   @Post('add')
-  @Log('用户管理', OperType.INSERT)
+  @Log({ title: '用户管理', operType: OperType.INSERT })
   @RequirePermissions('system:user:add')
   async add(@Body() user: CreateUserDto): Promise<AjaxResult> {
     if (!(await this.userService.checkUserNameUnique(user))) {
@@ -47,7 +47,7 @@ export class UserController {
    * @param user 用户信息
    */
   @Put('update')
-  @Log('用户管理', OperType.UPDATE)
+  @Log({ title: '用户管理', operType: OperType.UPDATE })
   @RequirePermissions('system:user:update')
   async update(@Body() user: UpdateUserDto): Promise<AjaxResult> {
     this.userService.checkUserAllowed(user)
@@ -64,7 +64,7 @@ export class UserController {
    * @param userIds 用户ID
    */
   @Delete('delete/:userIds')
-  @Log('用户管理', OperType.DELETE)
+  @Log({ title: '用户管理', operType: OperType.DELETE })
   @RequirePermissions('system:user:delete')
   async delete(@Param('userIds', new ParseArrayPipe({ items: Number })) userIds: number[]): Promise<AjaxResult> {
     this.userService.checkUserAllowed(userIds)

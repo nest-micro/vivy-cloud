@@ -32,7 +32,7 @@ export class DictTypeController {
    * @param dictType 字典类型信息
    */
   @Post('add')
-  @Log('字典类型管理', OperType.INSERT)
+  @Log({ title: '字典类型管理', operType: OperType.INSERT })
   @RequirePermissions('system:dict:add')
   async add(@Body() dictType: CreateDictTypeDto): Promise<AjaxResult> {
     if (!(await this.dictTypeService.checkDictTypeUnique(dictType))) {
@@ -51,7 +51,7 @@ export class DictTypeController {
    * @param dictType 字典类型信息
    */
   @Put('update')
-  @Log('字典类型管理', OperType.UPDATE)
+  @Log({ title: '字典类型管理', operType: OperType.UPDATE })
   @RequirePermissions('system:dict:update')
   async update(@Body() dictType: UpdateDictTypeDto): Promise<AjaxResult> {
     if (!(await this.dictTypeService.checkDictTypeUnique(dictType))) {
@@ -70,7 +70,7 @@ export class DictTypeController {
    * @param dictIds 字典类型ID
    */
   @Delete('delete/:dictIds')
-  @Log('字典类型管理', OperType.DELETE)
+  @Log({ title: '字典类型管理', operType: OperType.DELETE })
   @RequirePermissions('system:dict:delete')
   async delete(@Param('dictIds', ParseArrayPipe) dictIds: number[]): Promise<AjaxResult> {
     return AjaxResult.success(await this.dictTypeService.delete(dictIds))

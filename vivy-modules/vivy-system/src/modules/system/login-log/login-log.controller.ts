@@ -31,7 +31,7 @@ export class LoginLogController {
    * 清空登录日志
    */
   @Delete('clear')
-  @Log('登录日志', OperType.CLEAN)
+  @Log({ title: '登录日志', operType: OperType.CLEAN })
   @RequirePermissions('system:loginlog:delete')
   async clear(): Promise<AjaxResult> {
     return AjaxResult.success(await this.loginLogService.clear())

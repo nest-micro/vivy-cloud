@@ -187,8 +187,8 @@ export class UserService {
 
   /**
    * 根据用户名查询用户信息
-   * @author vivy
-   * @date 2023-05-07 18:56:22
+   * @param userName 用户名称
+   * @returns 用户信息
    */
   async selectUserByUserName(userName: string): Promise<SysUser> {
     return this.userRepository

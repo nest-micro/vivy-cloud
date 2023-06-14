@@ -79,7 +79,7 @@ export class SysOperLog extends BaseTimeEntity {
   @Column({
     name: 'request_url',
     type: 'varchar',
-    length: 255,
+    length: 1000,
     default: '',
     comment: '请求URL',
   })

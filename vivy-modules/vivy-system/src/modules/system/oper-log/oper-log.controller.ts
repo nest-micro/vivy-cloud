@@ -31,7 +31,7 @@ export class OperLogController {
    * 清空操作日志
    */
   @Delete('clear')
-  @Log('操作日志', OperType.CLEAN)
+  @Log({ title: '操作日志', operType: OperType.CLEAN })
   @RequirePermissions('system:operlog:delete')
   async clear(): Promise<AjaxResult> {
     return AjaxResult.success(await this.operLogService.clear())

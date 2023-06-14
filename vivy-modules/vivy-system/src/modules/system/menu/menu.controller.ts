@@ -30,7 +30,7 @@ export class MenuController {
    * @param menu 菜单信息
    */
   @Post('add')
-  @Log('菜单管理', OperType.INSERT)
+  @Log({ title: '菜单管理', operType: OperType.INSERT })
   @RequirePermissions('system:menu:add')
   async add(@Body() menu: CreateMenuDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.menuService.add(menu))
@@ -41,7 +41,7 @@ export class MenuController {
    * @param menu 菜单信息
    */
   @Put('update')
-  @Log('菜单管理', OperType.UPDATE)
+  @Log({ title: '菜单管理', operType: OperType.UPDATE })
   @RequirePermissions('system:menu:update')
   async update(@Body() menu: UpdateMenuDto): Promise<AjaxResult> {
     if (menu.menuId === menu.parentId) {
@@ -56,7 +56,7 @@ export class MenuController {
    * @param menuId 菜单ID
    */
   @Delete('delete/:menuId')
-  @Log('菜单管理', OperType.DELETE)
+  @Log({ title: '菜单管理', operType: OperType.DELETE })
   @RequirePermissions('system:menu:delete')
   async delete(@Param('menuId') menuId: number): Promise<AjaxResult> {
     if (await this.menuService.checkMenuExistChild(menuId)) {

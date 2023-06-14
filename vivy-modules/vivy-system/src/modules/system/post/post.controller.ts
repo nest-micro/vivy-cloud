@@ -32,7 +32,7 @@ export class PostController {
    * @param post 岗位信息
    */
   @Post('add')
-  @Log('岗位管理', OperType.INSERT)
+  @Log({ title: '岗位管理', operType: OperType.INSERT })
   @RequirePermissions('system:post:add')
   async add(@Body() post: CreatePostDto): Promise<AjaxResult> {
     if (!(await this.postService.checkPostNameUnique(post))) {
@@ -51,7 +51,7 @@ export class PostController {
    * @param post 岗位信息
    */
   @Put('update')
-  @Log('岗位管理', OperType.UPDATE)
+  @Log({ title: '岗位管理', operType: OperType.UPDATE })
   @RequirePermissions('system:post:update')
   async update(@Body() post: UpdatePostDto): Promise<AjaxResult> {
     if (!(await this.postService.checkPostNameUnique(post))) {
@@ -70,7 +70,7 @@ export class PostController {
    * @param postIds 岗位ID
    */
   @Delete('delete/:postIds')
-  @Log('岗位管理', OperType.DELETE)
+  @Log({ title: '岗位管理', operType: OperType.DELETE })
   @RequirePermissions('system:post:delete')
   async delete(@Param('postIds', ParseArrayPipe) postIds: number[]): Promise<AjaxResult> {
     return AjaxResult.success(await this.postService.delete(postIds))

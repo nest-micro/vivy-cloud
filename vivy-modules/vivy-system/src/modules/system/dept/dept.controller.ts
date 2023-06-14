@@ -18,8 +18,6 @@ export class DeptController {
 
   /**
    * 查询部门树结构
-   * @author vivy
-   * @date 2023-05-02 21:24:50
    */
   @Get('tree')
   @RequirePermissions('system:dept:query')
@@ -32,7 +30,7 @@ export class DeptController {
    * @param dept 部门信息
    */
   @Post('add')
-  @Log('部门管理', OperType.INSERT)
+  @Log({ title: '部门管理', operType: OperType.INSERT })
   @RequirePermissions('system:dept:add')
   async add(@Body() dept: CreateDeptDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.deptService.add(dept))
@@ -43,7 +41,7 @@ export class DeptController {
    * @param dept 部门信息
    */
   @Put('update')
-  @Log('部门管理', OperType.UPDATE)
+  @Log({ title: '部门管理', operType: OperType.UPDATE })
   @RequirePermissions('system:dept:update')
   async update(@Body() dept: UpdateDeptDto): Promise<AjaxResult> {
     if (dept.deptId === dept.parentId) {
@@ -58,7 +56,7 @@ export class DeptController {
    * @param deptId 部门ID
    */
   @Delete('delete/:deptId')
-  @Log('部门管理', OperType.DELETE)
+  @Log({ title: '部门管理', operType: OperType.DELETE })
   @RequirePermissions('system:dept:delete')
   async delete(@Param('deptId') deptId: number): Promise<AjaxResult> {
     if (await this.deptService.checkDeptExistChild(deptId)) {

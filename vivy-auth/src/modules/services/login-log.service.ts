@@ -10,17 +10,19 @@ export class LoginLogService {
 
   /**
    * 登录失败
-   * @author vivy
-   * @date 2023-05-11 22:03:07
+   * @param type 登录类型
+   * @param name 用户名称
+   * @param message 登录消息
    */
   async error(type: LoginType, name: string, message: string) {
     this.saveLoginLog(type, name, OperStatus.FAIL, message)
   }
 
   /**
-   * 用户成功
-   * @author vivy
-   * @date 2023-05-11 22:03:07
+   * 登录成功
+   * @param type 登录类型
+   * @param name 用户名称
+   * @param message 登录消息
    */
   async success(type: LoginType, name: string, message: string) {
     this.saveLoginLog(type, name, OperStatus.SUCCESS, message)
@@ -28,8 +30,10 @@ export class LoginLogService {
 
   /**
    * 登录日志保存
-   * @author vivy
-   * @date 2023-05-11 22:03:07
+   * @param type 登录类型
+   * @param name 用户名称
+   * @param status 登录状态
+   * @param message 登录消息
    */
   private saveLoginLog(type: LoginType, name: string, status: OperStatus, message: string) {
     const loginLog = new LoginLogDto()
